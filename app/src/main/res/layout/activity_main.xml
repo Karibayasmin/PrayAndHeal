@@ -10,10 +10,14 @@
         tools:context=".MainActivity">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewCarousel"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            tools:listitem="@layout/item_carousel_view"/>
+            tools:listitem="@layout/item_carousel_view"
+            android:layout_marginTop="8dp"
+            android:clipToPadding="false"/>
 
     </RelativeLayout>
 
