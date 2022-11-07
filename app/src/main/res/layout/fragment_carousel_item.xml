@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.CarouselItemFragment">
+
+        <RelativeLayout
+            android:id="@+id/layout_introduction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/image_demo_three">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textView_name_type_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Demo 1"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textView_name_type_two"
+                android:layout_below="@+id/textView_name_type_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Demo 1"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textView_name_type_three"
+                android:layout_below="@+id/textView_name_type_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Demo 1"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textView_revelationType"
+                android:layout_below="@+id/textView_name_type_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Demo 1"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_list"
+                android:layout_below="@+id/textView_revelationType"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                tools:listitem="@layout/item_ayah"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</layout>
