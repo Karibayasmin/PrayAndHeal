@@ -14,8 +14,10 @@
         android:layout_marginEnd="8dp">
 
         <RelativeLayout
+            android:id="@+id/layout_item"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/image_demo_three">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textView_name"
@@ -23,8 +25,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="Demo Data"
-                android:textSize="14sp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:textSize="14sp" />
 
         </RelativeLayout>
 
