@@ -3,14 +3,14 @@ package com.kariba.prayheal
 import android.content.res.Resources
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import com.kariba.prayheal.adapter.AdapterCarouselView
 import com.kariba.prayheal.databinding.ActivityMainBinding
+import com.kariba.prayheal.interfaces.OnClick
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -49,12 +49,19 @@ class MainActivity : AppCompatActivity() {
         val paddingWidth = (windowManager.defaultDisplay.width / 2) - px
         recyclerViewCarousel.setPadding(paddingWidth.toInt(), 0, paddingWidth.toInt(), 0)
 
-        carouselAdapter = AdapterCarouselView(this@MainActivity)
+        carouselAdapter = AdapterCarouselView(this@MainActivity, itemClick)
         recyclerViewCarousel.adapter = carouselAdapter
         recyclerViewCarousel.setHasFixedSize(true)
 
         carouselAdapter.setCarouselList(carouselList)
 
+
+    }
+
+    var itemClick = object : OnClick {
+        override fun onClick(view: View, position: Int) {
+
+        }
 
     }
 }
