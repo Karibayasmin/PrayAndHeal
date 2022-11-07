@@ -5,14 +5,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.kariba.prayheal.R
 import com.kariba.prayheal.databinding.ItemCarouselViewBinding
+import com.kariba.prayheal.interfaces.OnClickListener
+import com.kariba.prayheal.models.CarouselResponse
 
-class AdapterCarouselView(private val context: Context) : RecyclerView.Adapter<AdapterCarouselView.AdapterCarouselViewHolder>() {
+class AdapterCarouselView(private val context: Context, private var itemClick: OnClickListener) : RecyclerView.Adapter<AdapterCarouselView.AdapterCarouselViewHolder>() {
 
-    var carouselDataList : ArrayList<String> = ArrayList()
+    var carouselDataList : ArrayList<CarouselResponse> = ArrayList()
 
-    fun setCarouselList(list : ArrayList<String>){
+    fun setCarouselList(list : ArrayList<CarouselResponse>){
         carouselDataList = list
     }
 
@@ -23,7 +26,7 @@ class AdapterCarouselView(private val context: Context) : RecyclerView.Adapter<A
     }
 
     override fun onBindViewHolder(holder: AdapterCarouselViewHolder, position: Int) {
-        holder.bindView(carouselDataList[position])
+        holder.bindView(context, carouselDataList[position], itemClick, position)
     }
 
     override fun getItemCount(): Int {
@@ -31,9 +34,13 @@ class AdapterCarouselView(private val context: Context) : RecyclerView.Adapter<A
     }
 
     class AdapterCarouselViewHolder(private var itemBinding: ItemCarouselViewBinding) : RecyclerView.ViewHolder(itemBinding.root){
-          fun bindView(data: String) {
+          fun bindView(context: Context, data: CarouselResponse, itemClick: OnClickListener, position: Int) {
 
-              itemBinding.textViewName.text = data
+              itemBinding.textViewName.text = data.name
+
+              itemBinding.layoutItem.setOnClickListener {
+                  itemClick.onClick(it, adapterPosition)
+              }
               itemBinding.executePendingBindings()
 
           }
