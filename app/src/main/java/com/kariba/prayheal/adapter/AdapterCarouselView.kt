@@ -13,9 +13,9 @@ import com.kariba.prayheal.models.CarouselResponse
 
 class AdapterCarouselView(private val context: Context, private var itemClick: OnClickListener) : RecyclerView.Adapter<AdapterCarouselView.AdapterCarouselViewHolder>() {
 
-    var carouselDataList : ArrayList<CarouselResponse> = ArrayList()
+    var carouselDataList : ArrayList<CarouselResponse.CarouselData.SurahData> = ArrayList()
 
-    fun setCarouselList(list : ArrayList<CarouselResponse>){
+    fun setCarouselList(list : ArrayList<CarouselResponse.CarouselData.SurahData>){
         carouselDataList = list
     }
 
@@ -34,7 +34,7 @@ class AdapterCarouselView(private val context: Context, private var itemClick: O
     }
 
     class AdapterCarouselViewHolder(private var itemBinding: ItemCarouselViewBinding) : RecyclerView.ViewHolder(itemBinding.root){
-          fun bindView(context: Context, data: CarouselResponse, itemClick: OnClickListener, position: Int) {
+          fun bindView(context: Context, data: CarouselResponse.CarouselData.SurahData, itemClick: OnClickListener, position: Int) {
 
               itemBinding.textViewName.text = data.name
 
