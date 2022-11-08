@@ -15,7 +15,7 @@ import com.kariba.prayheal.models.CarouselResponse
 
 class CarouselItemFragment : Fragment() {
 
-    var carouselItem : CarouselResponse = CarouselResponse()
+    var carouselItem : CarouselResponse.CarouselData.SurahData = CarouselResponse.CarouselData.SurahData()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,11 +41,14 @@ class CarouselItemFragment : Fragment() {
 
             Log.e("inside this", "2 $carouselBundle")
 
-            carouselItem = Gson().fromJson(carouselBundle, CarouselResponse::class.java)
+            carouselItem = Gson().fromJson(carouselBundle, CarouselResponse.CarouselData.SurahData::class.java)
         }
 
         carouselItem.let {
-            binding.textViewNameTypeOne.text = it.name
+            binding.textViewNameTypeOne.text = carouselItem.name
+            binding.textViewNameTypeTwo.text = carouselItem.englishName
+            binding.textViewNameTypeThree.text = carouselItem.englishNameTranslation
+            binding.textViewRevelationType.text = carouselItem.revelationType
         }
     }
 
