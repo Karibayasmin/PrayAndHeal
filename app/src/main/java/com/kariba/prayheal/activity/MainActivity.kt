@@ -61,7 +61,7 @@ class MainActivity : BaseActivity() {
         val r: Resources = resources
         val px = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
-            80F,
+            146F,
             r.displayMetrics
         )
         val paddingWidth = (windowManager.defaultDisplay.width / 2) - px

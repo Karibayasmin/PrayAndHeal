@@ -30,18 +30,18 @@ class AdapterCarouselView(private val context: Context, private var itemClick: O
     }
 
     override fun getItemCount(): Int {
-        return carouselDataList.size
+        return if(carouselDataList.size == 0) carouselDataList.size else 10
     }
 
     class AdapterCarouselViewHolder(private var itemBinding: ItemCarouselViewBinding) : RecyclerView.ViewHolder(itemBinding.root){
           fun bindView(context: Context, data: CarouselResponse.CarouselData.SurahData, itemClick: OnClickListener, position: Int) {
 
-              itemBinding.textViewName.text = data.name
+              itemBinding.carouselResponse = data
+              itemBinding.executePendingBindings()
 
               itemBinding.layoutItem.setOnClickListener {
                   itemClick.onClick(it, adapterPosition)
               }
-              itemBinding.executePendingBindings()
 
           }
     }

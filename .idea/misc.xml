@@ -3,9 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/bg_card_solid_ash.xml" value="0.2385" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3770833333333333" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.3770833333333333" />
-        <entry key="app/src/main/res/layout/item_carousel_view.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/item_carousel_view.xml" value="0.25" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.3770833333333333" />
       </map>
     </option>

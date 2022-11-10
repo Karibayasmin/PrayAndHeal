@@ -10,5 +10,11 @@
     <color name="white_salt">#F8EEEC</color>
     <color name="white_snow">#F5FEFD</color>
     <color name="colorAccent">#6434ED</color>
+    <color name="ash_light">#EBEBEB</color>
+    <color name="baby_pink_dark">#FF69B4</color>
+    <color name="baby_pink_medium">#F99DBC</color>
+    <color name="lemonade">#FCBACB</color>
+    <color name="pink_light">#eec4dc</color>
+    <color name="blue">#042F46</color>
 
 </resources>
