@@ -8,6 +8,8 @@ import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.SnapHelper
 import com.google.gson.Gson
@@ -18,6 +20,8 @@ import com.kariba.prayheal.interfaces.OnClickListener
 import com.kariba.prayheal.models.CarouselResponse
 import com.kariba.prayheal.network.ApiClient
 import com.kariba.prayheal.network.ApiHandler
+import com.kariba.prayheal.utils.AppUtils
+import com.kariba.prayheal.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
 import retrofit2.Call
@@ -31,12 +35,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var carouselAdapter: AdapterCarouselView
 
+    lateinit var carouselViewModel : MainViewModel
+
     var carouselList: ArrayList<CarouselResponse.CarouselData.SurahData> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        carouselViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
+        binding.lifecycleOwner = this
+        binding.mainViewModel = carouselViewModel
 
         initView()
     }
@@ -64,42 +74,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadCarouselData() {
-        var call = ApiClient.getInstance("")?.create(ApiHandler::class.java)?.getQuran()
+        if(!AppUtils.hasNetworkConnection(this)){
+            AppUtils.showToast(this, "Please Check your network connection", false)
+            return
+        }
 
-        call?.enqueue(object : Callback<CarouselResponse>{
-            override fun onResponse(
-                call: Call<CarouselResponse>,
-                response: Response<CarouselResponse>
-            ) {
-                if(response.isSuccessful && response.body() != null){
-                    response.body()?.let { setCarouselResponseResponse(it) }
-                }else{
-                    if(response.errorBody() == null){
-                        setCarouselResponseResponse(CarouselResponse(response.code(), response.message()))
-                    }else{
-                        try {
-                            val jObjError = JSONObject(response.errorBody()!!.string())
-                            setCarouselResponseResponse(CarouselResponse(response.code(), jObjError.getString("message") ?: response.message()))
-                        }catch (e: Exception){
-                            setCarouselResponseResponse(CarouselResponse(response.code(), e.message.toString()))
-                        }
-                    }
-                }
-            }
+        carouselViewModel.getCarouselResponse(this).observe(this, object : Observer<CarouselResponse>{
+            override fun onChanged(data: CarouselResponse?) {
+                carouselList.clear()
+                carouselList = data?.carouselData?.surahList ?: ArrayList()
 
-            override fun onFailure(call: Call<CarouselResponse>, t: Throwable) {
-                setCarouselResponseResponse(CarouselResponse(100, t.message))
+                carouselAdapter.setCarouselList(carouselList)
+                carouselAdapter.notifyDataSetChanged()
+
             }
 
         })
-    }
-
-    fun setCarouselResponseResponse(data : CarouselResponse){
-        carouselList.clear()
-        carouselList = data.carouselData?.surahList ?: ArrayList()
-
-        carouselAdapter.setCarouselList(carouselList)
-        carouselAdapter.notifyDataSetChanged()
     }
 
     private var itemClick = object : OnClickListener {
