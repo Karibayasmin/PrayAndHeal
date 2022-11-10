@@ -30,7 +30,8 @@ class AdapterCarouselView(private val context: Context, private var itemClick: O
     }
 
     override fun getItemCount(): Int {
-        return if(carouselDataList.size == 0) carouselDataList.size else 10
+        //return if(carouselDataList.size == 0) carouselDataList.size else 10
+        return carouselDataList.size
     }
 
     class AdapterCarouselViewHolder(private var itemBinding: ItemCarouselViewBinding) : RecyclerView.ViewHolder(itemBinding.root){

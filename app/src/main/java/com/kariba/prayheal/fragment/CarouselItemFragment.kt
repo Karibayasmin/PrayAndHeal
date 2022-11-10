@@ -10,12 +10,16 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.google.gson.Gson
 import com.kariba.prayheal.R
+import com.kariba.prayheal.adapter.AdapterAyat
 import com.kariba.prayheal.databinding.FragmentCarouselItemBinding
 import com.kariba.prayheal.models.CarouselResponse
+import kotlinx.android.synthetic.main.fragment_carousel_item.*
 
 class CarouselItemFragment : Fragment() {
 
     var carouselItem : CarouselResponse.CarouselData.SurahData = CarouselResponse.CarouselData.SurahData()
+
+    lateinit var ayahAdapter : AdapterAyat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,26 +32,35 @@ class CarouselItemFragment : Fragment() {
 
         val binding = DataBindingUtil.inflate<FragmentCarouselItemBinding>(inflater, R.layout.fragment_carousel_item, container, false )
 
-        initView(binding, context)
+        context?.let { initView(binding, it) }
 
         return binding.root
     }
 
-    private fun initView(binding: FragmentCarouselItemBinding, context: Context?) {
-        val bundle = arguments
+    private fun initView(binding: FragmentCarouselItemBinding, context: Context) {
 
+        ayahAdapter = AdapterAyat(context)
+
+        binding.recyclerviewList.adapter = ayahAdapter
+        binding.recyclerviewList.setHasFixedSize(true)
+
+        val bundle = arguments
         bundle.let {
             var carouselBundle = it?.getString("carouselItemBundle")
 
             Log.e("inside this", "2 $carouselBundle")
 
             carouselItem = Gson().fromJson(carouselBundle, CarouselResponse.CarouselData.SurahData::class.java)
+
+            Log.e("ayahList", "${carouselItem.ayahsList.size}")
+            ayahAdapter.setAyahDataList(carouselItem.ayahsList)
+            ayahAdapter.notifyDataSetChanged()
         }
 
         carouselItem.let {
-            binding.textViewNameTypeOne.text = carouselItem.name
-            binding.textViewNameTypeTwo.text = carouselItem.englishName
-            binding.textViewNameTypeThree.text = carouselItem.englishNameTranslation
+            binding.textViewName.text = carouselItem.name
+            binding.textViewEnglishName.text = carouselItem.englishName
+            binding.textViewTranslation.text = carouselItem.englishNameTranslation
             binding.textViewRevelationType.text = carouselItem.revelationType
         }
     }
