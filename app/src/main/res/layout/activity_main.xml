@@ -3,6 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    
+    <data>
+        <variable
+            name="mainViewModel"
+            type="com.kariba.prayheal.viewmodels.MainViewModel" />
+    </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
