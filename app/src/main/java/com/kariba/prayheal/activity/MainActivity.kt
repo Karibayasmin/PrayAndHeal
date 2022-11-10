@@ -30,7 +30,7 @@ import retrofit2.Response
 import java.lang.Exception
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var carouselAdapter: AdapterCarouselView
@@ -79,13 +79,21 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+        progressDialog.show()
+
         carouselViewModel.getCarouselResponse(this).observe(this, object : Observer<CarouselResponse>{
             override fun onChanged(data: CarouselResponse?) {
-                carouselList.clear()
-                carouselList = data?.carouselData?.surahList ?: ArrayList()
+                progressDialog.dismiss()
+                if(data?.responseCode == 200){
+                    carouselList.clear()
+                    carouselList = data?.carouselData?.surahList ?: ArrayList()
 
-                carouselAdapter.setCarouselList(carouselList)
-                carouselAdapter.notifyDataSetChanged()
+                    carouselAdapter.setCarouselList(carouselList)
+                    carouselAdapter.notifyDataSetChanged()
+                }else{
+                    AppUtils.showToast(this@MainActivity, "Something went wrong, please try again", false)
+                }
+
 
             }
 

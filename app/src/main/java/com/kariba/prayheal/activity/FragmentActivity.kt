@@ -8,7 +8,7 @@ import com.kariba.prayheal.R
 import com.kariba.prayheal.fragment.CarouselItemFragment
 import kotlinx.android.synthetic.main.activity_fragment.*
 
-class FragmentActivity : AppCompatActivity() {
+class FragmentActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

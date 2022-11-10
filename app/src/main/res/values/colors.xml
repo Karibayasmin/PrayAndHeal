@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="white_salt">#F8EEEC</color>
     <color name="white_snow">#F5FEFD</color>
+    <color name="colorAccent">#6434ED</color>
+
 </resources>
