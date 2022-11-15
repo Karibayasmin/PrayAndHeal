@@ -49,8 +49,9 @@
             android:background="@drawable/bg_card_solid_blue">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:id="@+id/imageView_quran"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:src="@drawable/ic_quran" />
@@ -59,7 +60,9 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_toEndOf="@+id/imageView_quran"
+                android:layout_toStartOf="@+id/imageView_next_quran"
+                android:gravity="center"
                 android:paddingStart="10dp"
                 android:paddingTop="20dp"
                 android:paddingBottom="20dp"
@@ -68,8 +71,9 @@
                 android:textSize="18sp" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:id="@+id/imageView_next_quran"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="20dp"
@@ -79,17 +83,18 @@
 
         <RelativeLayout
             android:id="@+id/layout_tasbih"
-            android:layout_below="@+id/layout_quran"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_quran"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/bg_card_solid_blue">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:id="@+id/imageView_tasbih"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="20dp"
                 android:src="@drawable/ic_tasbih" />
@@ -97,17 +102,20 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tasbih"
-                android:textSize="18sp"
-                android:textColor="@color/white"
+                android:layout_toEndOf="@+id/imageView_tasbih"
+                android:layout_toStartOf="@+id/imageView_next_tasbih"
+                android:gravity="center"
                 android:paddingStart="10dp"
                 android:paddingTop="20dp"
                 android:paddingBottom="20dp"
-                android:layout_centerHorizontal="true"/>
+                android:text="Tasbih"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:id="@+id/imageView_next_tasbih"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="20dp"
@@ -115,17 +123,50 @@
 
         </RelativeLayout>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textView_read"
+        <RelativeLayout
+            android:id="@+id/layout_rules"
             android:layout_below="@+id/layout_tasbih"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:text="How to read Quran"
-            android:textColor="@color/blue"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/bg_card_solid_blue">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageView_rules"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/ic_rules" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textView_rules"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/imageView_rules"
+                android:layout_toStartOf="@+id/imageView_next_rules"
+                android:gravity="center"
+                android:paddingStart="10dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:text="Rules of Reading Quran"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:autoSizeMinTextSize="4sp"
+                app:autoSizeTextType="uniform" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageView_next_rules"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/ic_baseline_arrow_forward_24" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
