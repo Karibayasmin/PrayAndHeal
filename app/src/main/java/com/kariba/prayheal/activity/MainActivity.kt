@@ -10,11 +10,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.SnapHelper
 import com.google.gson.Gson
 import com.kariba.prayheal.R
 import com.kariba.prayheal.adapter.AdapterCarouselView
+import com.kariba.prayheal.adapter.AdapterFavoriteAyat
 import com.kariba.prayheal.databinding.ActivityMainBinding
 import com.kariba.prayheal.interfaces.OnClickListener
 import com.kariba.prayheal.models.CarouselResponse
@@ -34,6 +36,7 @@ class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var carouselAdapter: AdapterCarouselView
+    private lateinit var adapterFavoriteAyat : AdapterFavoriteAyat
 
     lateinit var carouselViewModel : MainViewModel
 
@@ -71,6 +74,11 @@ class MainActivity : BaseActivity() {
         recyclerViewCarousel.adapter = carouselAdapter
         recyclerViewCarousel.setHasFixedSize(true)
 
+        adapterFavoriteAyat = AdapterFavoriteAyat(this@MainActivity)
+        recyclerViewGrid.adapter = adapterFavoriteAyat
+        recyclerViewGrid.layoutManager = GridLayoutManager(this, 2)
+        recyclerViewGrid.setHasFixedSize(true)
+
     }
 
     private fun loadCarouselData() {
@@ -90,6 +98,10 @@ class MainActivity : BaseActivity() {
 
                     carouselAdapter.setCarouselList(carouselList)
                     carouselAdapter.notifyDataSetChanged()
+
+                    adapterFavoriteAyat.setAyatData(data.carouselData?.surahList?.get(1)?.ayahsList ?: ArrayList())
+                    adapterFavoriteAyat.notifyDataSetChanged()
+
                 }else{
                     AppUtils.showToast(this@MainActivity, "Something went wrong, please try again", false)
                 }
