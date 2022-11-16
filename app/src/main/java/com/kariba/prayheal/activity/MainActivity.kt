@@ -1,18 +1,27 @@
 package com.kariba.prayheal.activity
 
+import android.app.Dialog
 import android.content.Intent
 import android.content.res.Resources
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.SnapHelper
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.card.MaterialCardView
 import com.google.gson.Gson
 import com.kariba.prayheal.R
 import com.kariba.prayheal.adapter.AdapterCarouselView
@@ -41,6 +50,7 @@ class MainActivity : BaseActivity() {
     lateinit var carouselViewModel : MainViewModel
 
     var carouselList: ArrayList<CarouselResponse.CarouselData.SurahData> = ArrayList()
+    var ayatList: ArrayList<CarouselResponse.CarouselData.SurahData.AyahsData> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +84,7 @@ class MainActivity : BaseActivity() {
         recyclerViewCarousel.adapter = carouselAdapter
         recyclerViewCarousel.setHasFixedSize(true)
 
-        adapterFavoriteAyat = AdapterFavoriteAyat(this@MainActivity)
+        adapterFavoriteAyat = AdapterFavoriteAyat(this@MainActivity, ayatClick)
         recyclerViewGrid.adapter = adapterFavoriteAyat
         recyclerViewGrid.layoutManager = GridLayoutManager(this, 2)
         recyclerViewGrid.setHasFixedSize(true)
@@ -99,7 +109,10 @@ class MainActivity : BaseActivity() {
                     carouselAdapter.setCarouselList(carouselList)
                     carouselAdapter.notifyDataSetChanged()
 
-                    adapterFavoriteAyat.setAyatData(data.carouselData?.surahList?.get(1)?.ayahsList ?: ArrayList())
+                    ayatList.clear()
+                    ayatList = data.carouselData?.surahList?.get(1)?.ayahsList ?: ArrayList()
+
+                    adapterFavoriteAyat.setAyatData(ayatList)
                     adapterFavoriteAyat.notifyDataSetChanged()
 
                 }else{
@@ -122,5 +135,32 @@ class MainActivity : BaseActivity() {
             startActivity(intent)
         }
 
+    }
+
+    private var ayatClick = object : OnClickListener{
+        override fun onClick(view: View, position: Int) {
+            showCustomAlert(ayatList[position].text ?: "")
+        }
+
+    }
+
+    private fun showCustomAlert(message: String) {
+        val dialog = Dialog(this@MainActivity)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.custom_alert_dialog)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val textViewMessage = dialog.findViewById(R.id.textView_message) as AppCompatTextView
+        val buttonClose = dialog.findViewById(R.id.imageView_close) as AppCompatImageView
+
+        textViewMessage.text = message
+
+        buttonClose.setOnClickListener {
+
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }

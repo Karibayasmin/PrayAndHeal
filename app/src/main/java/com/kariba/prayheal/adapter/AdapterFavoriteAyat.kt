@@ -7,9 +7,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kariba.prayheal.R
 import com.kariba.prayheal.databinding.ItemFavoriteAyatBinding
+import com.kariba.prayheal.interfaces.OnClickListener
 import com.kariba.prayheal.models.CarouselResponse
 
-class AdapterFavoriteAyat(private val context: Context) : RecyclerView.Adapter<AdapterFavoriteAyat.FavoriteAyatViewHolder>() {
+class AdapterFavoriteAyat(private val context: Context, private val ayatClick : OnClickListener) : RecyclerView.Adapter<AdapterFavoriteAyat.FavoriteAyatViewHolder>() {
 
     var ayatList : ArrayList<CarouselResponse.CarouselData.SurahData.AyahsData> = ArrayList()
 
@@ -24,7 +25,7 @@ class AdapterFavoriteAyat(private val context: Context) : RecyclerView.Adapter<A
     }
 
     override fun onBindViewHolder(holder: FavoriteAyatViewHolder, position: Int) {
-        holder.bindView(context, ayatList[position])
+        holder.bindView(context, ayatList[position], ayatClick)
     }
 
     override fun getItemCount(): Int {
@@ -35,10 +36,15 @@ class AdapterFavoriteAyat(private val context: Context) : RecyclerView.Adapter<A
 
         fun bindView(
             context: Context,
-            ayahsData: CarouselResponse.CarouselData.SurahData.AyahsData
+            ayahsData: CarouselResponse.CarouselData.SurahData.AyahsData,
+            ayatClick: OnClickListener
         ) {
             itemBinding.ayatData = ayahsData
             itemBinding.executePendingBindings()
+
+            itemBinding.cardViewAyat.setOnClickListener {
+                ayatClick.onClick(it, adapterPosition)
+            }
 
         }
     }
