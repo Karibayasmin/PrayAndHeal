@@ -5,19 +5,20 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.kariba.prayheal.R
 import com.kariba.prayheal.databinding.ItemCarouselViewBinding
-import com.kariba.prayheal.interfaces.OnClickListener
+import com.kariba.prayheal.interfaces.OnCarouselClickListener
 import com.kariba.prayheal.models.CarouselResponse
 
-class AdapterCarouselView(private val context: Context, private var itemClick: OnClickListener) : RecyclerView.Adapter<AdapterCarouselView.AdapterCarouselViewHolder>() {
+class AdapterCarouselView(private val context: Context) : RecyclerView.Adapter<AdapterCarouselView.AdapterCarouselViewHolder>() {
 
     var carouselDataList : ArrayList<CarouselResponse.CarouselData.SurahData> = ArrayList()
 
     fun setCarouselList(list : ArrayList<CarouselResponse.CarouselData.SurahData>){
         carouselDataList = list
     }
+
+    var itemClick: OnCarouselClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdapterCarouselViewHolder {
         var itemBinding = DataBindingUtil.inflate<ItemCarouselViewBinding>(LayoutInflater.from(context), R.layout.item_carousel_view, parent, false )
@@ -26,7 +27,7 @@ class AdapterCarouselView(private val context: Context, private var itemClick: O
     }
 
     override fun onBindViewHolder(holder: AdapterCarouselViewHolder, position: Int) {
-        holder.bindView(context, carouselDataList[position], itemClick, position)
+        itemClick?.let { holder.bindView(context, carouselDataList[position], it, position) }
     }
 
     override fun getItemCount(): Int {
@@ -35,7 +36,7 @@ class AdapterCarouselView(private val context: Context, private var itemClick: O
     }
 
     class AdapterCarouselViewHolder(private var itemBinding: ItemCarouselViewBinding) : RecyclerView.ViewHolder(itemBinding.root){
-          fun bindView(context: Context, data: CarouselResponse.CarouselData.SurahData, itemClick: OnClickListener, position: Int) {
+          fun bindView(context: Context, data: CarouselResponse.CarouselData.SurahData, itemClick: OnCarouselClickListener, position: Int) {
 
               itemBinding.carouselResponse = data
               itemBinding.executePendingBindings()

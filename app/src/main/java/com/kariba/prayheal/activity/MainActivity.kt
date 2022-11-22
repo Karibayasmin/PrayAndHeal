@@ -23,7 +23,8 @@ import com.kariba.prayheal.UserApplication
 import com.kariba.prayheal.adapter.AdapterCarouselView
 import com.kariba.prayheal.adapter.AdapterFavoriteAyat
 import com.kariba.prayheal.databinding.ActivityMainBinding
-import com.kariba.prayheal.interfaces.OnClickListener
+import com.kariba.prayheal.interfaces.OnCarouselClickListener
+import com.kariba.prayheal.interfaces.onAyatClickListener
 import com.kariba.prayheal.models.CarouselResponse
 import com.kariba.prayheal.preference.AppPreference
 import com.kariba.prayheal.preference.AppPreferenceImpl
@@ -33,10 +34,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListener{
 
-    private lateinit var carouselAdapter: AdapterCarouselView
-    private lateinit var adapterFavoriteAyat : AdapterFavoriteAyat
+    @Inject
+    lateinit var carouselAdapter: AdapterCarouselView
+
+    @Inject
+    lateinit var adapterFavoriteAyat : AdapterFavoriteAyat
 
     @Inject
     lateinit var appPreferenceImpl: AppPreferenceImpl
@@ -79,11 +83,14 @@ class MainActivity : BaseActivity() {
         val paddingWidth = (windowManager.defaultDisplay.width / 2) - px
         recyclerViewCarousel.setPadding(paddingWidth.toInt(), 0, paddingWidth.toInt(), 0)
 
-        carouselAdapter = AdapterCarouselView(this@MainActivity, itemClick)
+        //carouselAdapter = AdapterCarouselView(this@MainActivity, itemClick)
+        carouselAdapter.itemClick = this
+
         recyclerViewCarousel.adapter = carouselAdapter
         recyclerViewCarousel.setHasFixedSize(true)
 
-        adapterFavoriteAyat = AdapterFavoriteAyat(this@MainActivity, ayatClick)
+        //adapterFavoriteAyat = AdapterFavoriteAyat(this@MainActivity)
+        adapterFavoriteAyat.ayatClick = this
         recyclerViewGrid.adapter = adapterFavoriteAyat
         recyclerViewGrid.layoutManager = GridLayoutManager(this, 2)
         recyclerViewGrid.setHasFixedSize(true)
@@ -124,23 +131,17 @@ class MainActivity : BaseActivity() {
         })
     }
 
-    private var itemClick = object : OnClickListener {
-        override fun onClick(view: View, position: Int) {
-            var intent = Intent(this@MainActivity, FragmentActivity::class.java)
-            var bundle = Bundle()
-            bundle.putString("fragment", "carouselFragment")
-            bundle.putString("carouselItem", Gson().toJson(carouselList[position]))
-            intent.putExtras(bundle)
-            startActivity(intent)
-        }
-
+    override fun onClick(view: View, position: Int) {
+        var intent = Intent(this@MainActivity, FragmentActivity::class.java)
+        var bundle = Bundle()
+        bundle.putString("fragment", "carouselFragment")
+        bundle.putString("carouselItem", Gson().toJson(carouselList[position]))
+        intent.putExtras(bundle)
+        startActivity(intent)
     }
 
-    private var ayatClick = object : OnClickListener{
-        override fun onClick(view: View, position: Int) {
-            showCustomAlert(ayatList[position].text ?: "")
-        }
-
+    override fun ayatOnClick(view: View, position: Int) {
+        showCustomAlert(ayatList[position].text ?: "")
     }
 
     private fun showCustomAlert(message: String) {

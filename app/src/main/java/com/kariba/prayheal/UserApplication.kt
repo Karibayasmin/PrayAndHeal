@@ -1,8 +1,8 @@
 package com.kariba.prayheal
 
 import android.app.Application
-import com.kariba.prayheal.di.AppComponent
-import com.kariba.prayheal.di.DaggerAppComponent
+import com.kariba.prayheal.di.component.AppComponent
+import com.kariba.prayheal.di.component.DaggerAppComponent
 
 class UserApplication : Application() {
 

@@ -7,16 +7,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kariba.prayheal.R
 import com.kariba.prayheal.databinding.ItemFavoriteAyatBinding
-import com.kariba.prayheal.interfaces.OnClickListener
+import com.kariba.prayheal.interfaces.OnCarouselClickListener
+import com.kariba.prayheal.interfaces.onAyatClickListener
 import com.kariba.prayheal.models.CarouselResponse
 
-class AdapterFavoriteAyat(private val context: Context, private val ayatClick : OnClickListener) : RecyclerView.Adapter<AdapterFavoriteAyat.FavoriteAyatViewHolder>() {
+class AdapterFavoriteAyat(private val context: Context) : RecyclerView.Adapter<AdapterFavoriteAyat.FavoriteAyatViewHolder>() {
 
     var ayatList : ArrayList<CarouselResponse.CarouselData.SurahData.AyahsData> = ArrayList()
 
     fun setAyatData(ayatList : ArrayList<CarouselResponse.CarouselData.SurahData.AyahsData>){
         this.ayatList = ayatList
     }
+
+    var ayatClick : onAyatClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteAyatViewHolder {
         val itemBinding = DataBindingUtil.inflate<ItemFavoriteAyatBinding>(LayoutInflater.from(context), R.layout.item_favorite_ayat, parent, false)
@@ -25,7 +28,7 @@ class AdapterFavoriteAyat(private val context: Context, private val ayatClick : 
     }
 
     override fun onBindViewHolder(holder: FavoriteAyatViewHolder, position: Int) {
-        holder.bindView(context, ayatList[position], ayatClick)
+        ayatClick?.let { holder.bindView(context, ayatList[position], it) }
     }
 
     override fun getItemCount(): Int {
@@ -37,13 +40,13 @@ class AdapterFavoriteAyat(private val context: Context, private val ayatClick : 
         fun bindView(
             context: Context,
             ayahsData: CarouselResponse.CarouselData.SurahData.AyahsData,
-            ayatClick: OnClickListener
+            ayatClick: onAyatClickListener
         ) {
             itemBinding.ayatData = ayahsData
             itemBinding.executePendingBindings()
 
             itemBinding.cardViewAyat.setOnClickListener {
-                ayatClick.onClick(it, adapterPosition)
+                ayatClick.ayatOnClick(it, adapterPosition)
             }
 
         }

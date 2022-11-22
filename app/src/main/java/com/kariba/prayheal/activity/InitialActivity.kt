@@ -7,7 +7,6 @@ import androidx.databinding.DataBindingUtil
 import com.kariba.prayheal.R
 import com.kariba.prayheal.UserApplication
 import com.kariba.prayheal.databinding.ActivityInitialBinding
-import com.kariba.prayheal.di.DaggerAppComponent
 import com.kariba.prayheal.preference.AppPreference
 import com.kariba.prayheal.preference.AppPreferenceImpl
 import com.kariba.prayheal.utils.AppUtils
