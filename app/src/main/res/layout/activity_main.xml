@@ -22,12 +22,24 @@
             android:background="@color/white_snow">
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textView_userName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true"
+                android:text="Dear User"
+                android:textColor="@color/blue"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textView_favorite"
+                android:layout_below="@+id/textView_userName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:text="Favorite Surah"
+                android:text="Your Favorite Surah"
                 android:textColor="@color/blue"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -50,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:text="Favorite Ayah"
+                android:text="Your Favorite Ayah"
                 android:textColor="@color/blue"
                 android:textSize="18sp"
                 android:textStyle="bold" />
