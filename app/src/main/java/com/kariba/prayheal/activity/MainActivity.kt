@@ -45,10 +45,11 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
     @Inject
     lateinit var appPreferenceImpl: AppPreferenceImpl
 
+    @Inject
     lateinit var carouselViewModel : MainViewModel
 
-    var carouselList: ArrayList<CarouselResponse.CarouselData.SurahData> = ArrayList()
-    var ayatList: ArrayList<CarouselResponse.CarouselData.SurahData.AyahsData> = ArrayList()
+    private var carouselList: ArrayList<CarouselResponse.CarouselData.SurahData> = ArrayList()
+    private var ayatList: ArrayList<CarouselResponse.CarouselData.SurahData.AyahsData> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +58,7 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
         component.inject(this)
 
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-        carouselViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        //carouselViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         binding.lifecycleOwner = this
         binding.mainViewModel = carouselViewModel

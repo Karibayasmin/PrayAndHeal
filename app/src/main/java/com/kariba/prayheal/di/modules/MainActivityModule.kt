@@ -3,6 +3,8 @@ package com.kariba.prayheal.di.modules
 import android.content.Context
 import com.kariba.prayheal.adapter.AdapterCarouselView
 import com.kariba.prayheal.adapter.AdapterFavoriteAyat
+import com.kariba.prayheal.viewmodels.MainViewModel
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 
@@ -20,4 +22,11 @@ class MainActivityModule {
 
         return AdapterFavoriteAyat(context)
     }
+
+    @Provides
+    fun getMainViewModel() : MainViewModel{
+
+        return  MainViewModel()
+    }
+
 }
