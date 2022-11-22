@@ -34,11 +34,14 @@ class InitialActivity : AppCompatActivity() {
     }
 
     private fun initView(binding: ActivityInitialBinding) {
+        if(appPreferenceImpl.getBoolean(AppPreference.IS_LOGGED_IN) == true){
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
         binding.textViewSubmit.setOnClickListener {
             if(isValid()){
-
                 appPreferenceImpl.setString(AppPreference.USER_NAME, binding.editTextName.text.toString())
-
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()

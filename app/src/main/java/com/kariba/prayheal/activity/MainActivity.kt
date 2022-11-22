@@ -68,7 +68,7 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
 
     private fun initView(binding: ActivityMainBinding) {
 
-        binding.textViewUserName.text = appPreferenceImpl.getString(AppPreference.USER_NAME)
+        binding.textViewUserName.text = "Dear, ${appPreferenceImpl.getString(AppPreference.USER_NAME)}"
 
         loadCarouselData()
 
@@ -110,6 +110,8 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
             override fun onChanged(data: CarouselResponse?) {
                 progressDialog.dismiss()
                 if(data?.responseCode == 200){
+
+                    appPreferenceImpl.setBoolean(AppPreference.IS_LOGGED_IN, true)
                     carouselList.clear()
                     carouselList = data?.carouselData?.surahList ?: ArrayList()
 

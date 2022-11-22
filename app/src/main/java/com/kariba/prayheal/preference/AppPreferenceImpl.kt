@@ -17,6 +17,15 @@ class AppPreferenceImpl(context: Context): AppPreference {
         return sharedPreferences.getString(key, "")
     }
 
+    override fun setBoolean(key: String, value: Boolean) {
+        editor.putBoolean(key, value)
+        editor.apply()
+    }
+
+    override fun getBoolean(key: String): Boolean? {
+        return sharedPreferences.getBoolean(key, false)
+    }
+
     override fun clearAll() {
         editor.clear()
         editor.apply()
