@@ -20,7 +20,6 @@ class InitialActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_initial)
 
         val binding = DataBindingUtil.setContentView<ActivityInitialBinding>(this, R.layout.activity_initial)
 
@@ -51,7 +50,7 @@ class InitialActivity : AppCompatActivity() {
 
     private fun isValid() : Boolean{
         if(editTextName.text?.isEmpty() == true){
-            AppUtils.showToast(this, "Please enter name", false)
+            AppUtils.showToast(this, getString(R.string.please_enter_name), false)
             return false
         }
 

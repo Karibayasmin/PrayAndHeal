@@ -48,11 +48,9 @@ class CarouselItemFragment : Fragment() {
         bundle.let {
             var carouselBundle = it?.getString("carouselItemBundle")
 
-            Log.e("inside this", "2 $carouselBundle")
 
             carouselItem = Gson().fromJson(carouselBundle, CarouselResponse.CarouselData.SurahData::class.java)
 
-            Log.e("ayahList", "${carouselItem.ayahsList.size}")
             ayahAdapter.setAyahDataList(carouselItem.ayahsList)
             ayahAdapter.notifyDataSetChanged()
         }

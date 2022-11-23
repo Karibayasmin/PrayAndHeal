@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_centerHorizontal="true"
-                android:text="Dear User"
+                android:text="@string/dear"
                 android:textColor="@color/blue"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:text="Your Favorite Surah"
+                android:text="@string/your_favorite_surah"
                 android:textColor="@color/blue"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:text="Your Favorite Ayah"
+                android:text="@string/your_favorite_ayah"
                 android:textColor="@color/blue"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -105,7 +105,7 @@
                     android:paddingStart="10dp"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
-                    android:text="Al Quran"
+                    android:text="@string/al_quran"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
 
@@ -147,7 +147,7 @@
                     android:paddingStart="10dp"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
-                    android:text="Tasbih"
+                    android:text="@string/tasbih"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
 
@@ -191,7 +191,7 @@
                     android:paddingStart="10dp"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
-                    android:text="Rules of Reading Quran"
+                    android:text="@string/rules_of_reading_quran"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     app:autoSizeMinTextSize="4sp"

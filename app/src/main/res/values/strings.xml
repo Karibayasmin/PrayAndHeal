@@ -1,17 +1,24 @@
 <resources>
     <string name="app_name">Pray &amp; Heal</string>
-    <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
     <!--Common String-->
     <string name="please_wait">Please wait</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_internet">Please Check your network connection</string>
+    <string name="common_error">Something went wrong, please try again</string>
+
+    <!--MainActivity-->
+    <string name="dear">Dear,</string>
+    <string name="your_favorite_surah">Your Favorite Surah</string>
+    <string name="your_favorite_ayah">Your Favorite Ayah</string>
+    <string name="al_quran">Al Quran</string>
+    <string name="tasbih">Tasbih</string>
+    <string name="rules_of_reading_quran">Rules of Reading Quran</string>
+
+    <!--InitialActivity-->
+    <string name="enter_name">Please enter name</string>
+    <string name="please_enter_name">Please enter name</string>
+    <string name="welcome">Welcome</string>
+    <string name="submit">Submit</string>
+    <string name="demo">Demo</string>
+
 </resources>

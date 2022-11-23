@@ -68,7 +68,7 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
 
     private fun initView(binding: ActivityMainBinding) {
 
-        binding.textViewUserName.text = "Dear, ${appPreferenceImpl.getString(AppPreference.USER_NAME)}"
+        binding.textViewUserName.text = "${getString(R.string.dear)} ${appPreferenceImpl.getString(AppPreference.USER_NAME)}"
 
         loadCarouselData()
 
@@ -110,7 +110,7 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
 
     private fun loadCarouselData() {
         if(!AppUtils.hasNetworkConnection(this)){
-            AppUtils.showToast(this, "Please Check your network connection", false)
+            AppUtils.showToast(this, getString(R.string.no_internet), false)
             return
         }
 
@@ -135,7 +135,7 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
                     adapterFavoriteAyat.notifyDataSetChanged()
 
                 }else{
-                    AppUtils.showToast(this@MainActivity, "Something went wrong, please try again", false)
+                    AppUtils.showToast(this@MainActivity, getString(R.string.common_error), false)
                 }
 
 
