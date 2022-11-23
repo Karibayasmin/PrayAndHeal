@@ -8,7 +8,7 @@ object AppConstants {
     /*Fragments*/
 
     const val CAROUSEL_FRAGMENT = "carouselFragment"
-    const val AL_QURAN_FRAGMENT = "al_quran_fragment"
+    const val AL_QURAN_FRAGMENT = "alQuranFragment"
     const val TASBIH_FRAGMENT = "tasbih_fragment"
     const val RULES_FRAGMENT = "rules_fragment"
 }

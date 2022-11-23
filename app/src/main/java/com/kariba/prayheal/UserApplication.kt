@@ -6,7 +6,9 @@ import com.kariba.prayheal.di.component.DaggerAppComponent
 
 class UserApplication : Application() {
 
-    lateinit var appComponent : AppComponent
+    companion object{
+        lateinit var appComponent : AppComponent
+    }
 
     override fun onCreate() {
         super.onCreate()

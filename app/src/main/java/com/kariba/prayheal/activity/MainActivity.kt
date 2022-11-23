@@ -55,8 +55,7 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val component = (application as UserApplication).appComponent
-        component.inject(this)
+        UserApplication.appComponent.inject(this)
 
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
 
@@ -157,6 +156,7 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
         var intent = Intent(this@MainActivity, FragmentActivity::class.java)
         var bundle = Bundle()
         bundle.putString("fragment", AppConstants.AL_QURAN_FRAGMENT)
+        intent.putExtras(bundle)
         startActivity(intent)
     }
 
@@ -164,6 +164,7 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
         var intent = Intent(this@MainActivity, FragmentActivity::class.java)
         var bundle = Bundle()
         bundle.putString("fragment", AppConstants.TASBIH_FRAGMENT)
+        intent.putExtras(bundle)
         startActivity(intent)
     }
 
@@ -171,6 +172,7 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
         var intent = Intent(this@MainActivity, FragmentActivity::class.java)
         var bundle = Bundle()
         bundle.putString("fragment", AppConstants.RULES_FRAGMENT)
+        intent.putExtras(bundle)
         startActivity(intent)
     }
 

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import com.kariba.prayheal.R
+import com.kariba.prayheal.UserApplication
 import com.kariba.prayheal.fragment.AlQuranFragment
 import com.kariba.prayheal.fragment.CarouselItemFragment
 import com.kariba.prayheal.fragment.RulesFragment
@@ -18,36 +19,32 @@ class FragmentActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fragment)
 
-        val bundle = Bundle()
-
-
         intent.extras?.getString("fragment")?.let {
             when(it){
                 AppConstants.CAROUSEL_FRAGMENT -> {
 
                     var carouselItemBundle = intent.extras?.getString("carouselItem")
 
-
                     val carouselFragment : CarouselItemFragment by lazy { CarouselItemFragment.newInstance() }
-                    commitFragmentTransactionAdd(carouselFragment, carouselItemBundle)
+                    commitFragmentTransactionAdd(carouselFragment, AppConstants.CAROUSEL_FRAGMENT, carouselItemBundle)
                 }
 
                 AppConstants.AL_QURAN_FRAGMENT -> {
 
                     val alQuranFragment : AlQuranFragment by lazy { AlQuranFragment.newInstance() }
-                    commitFragmentTransactionAdd(alQuranFragment)
+                    commitFragmentTransactionAdd(alQuranFragment, AppConstants.AL_QURAN_FRAGMENT)
                 }
 
                 AppConstants.TASBIH_FRAGMENT -> {
 
                     val tasbihFragment : TasbihFragment by lazy { TasbihFragment.newInstance() }
-                    commitFragmentTransactionAdd(tasbihFragment)
+                    commitFragmentTransactionAdd(tasbihFragment, AppConstants.TASBIH_FRAGMENT)
                 }
 
                 AppConstants.RULES_FRAGMENT -> {
 
                     val rulesFragment : RulesFragment by lazy { RulesFragment.newInstance() }
-                    commitFragmentTransactionAdd(rulesFragment)
+                    commitFragmentTransactionAdd(rulesFragment, AppConstants.RULES_FRAGMENT)
                 }
 
             }
@@ -61,7 +58,7 @@ class FragmentActivity : BaseActivity() {
     }
 
 
-    fun commitFragmentTransactionAdd(fragment: Fragment, carouselItemBundle: String? = "") {
+    fun commitFragmentTransactionAdd(fragment: Fragment, tag : String, carouselItemBundle: String? = "") {
         try {
             var bundle = Bundle()
             bundle.putString("carouselItemBundle", carouselItemBundle.toString())
@@ -70,7 +67,7 @@ class FragmentActivity : BaseActivity() {
 
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.containerFragment, fragment)
+                .replace(R.id.containerFragment, fragment, tag)
                 .commit()
 
         } catch (exception: Exception) {

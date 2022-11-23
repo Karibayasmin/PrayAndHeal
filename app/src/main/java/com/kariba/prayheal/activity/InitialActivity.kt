@@ -23,8 +23,8 @@ class InitialActivity : AppCompatActivity() {
 
         val binding = DataBindingUtil.setContentView<ActivityInitialBinding>(this, R.layout.activity_initial)
 
-        val component = (application as UserApplication).appComponent
-        component.inject(this)
+
+        UserApplication.appComponent.inject(this)
 
         binding.lifecycleOwner = this
 
