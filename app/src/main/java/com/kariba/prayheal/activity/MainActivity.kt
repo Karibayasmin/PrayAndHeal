@@ -98,6 +98,14 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
             switchToAlQuran()
         }
 
+        binding.layoutTasbih.setOnClickListener {
+            switchToTasbih()
+        }
+
+        binding.layoutRules.setOnClickListener {
+            switchToRules()
+        }
+
     }
 
     private fun loadCarouselData() {
@@ -149,6 +157,20 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
         var intent = Intent(this@MainActivity, FragmentActivity::class.java)
         var bundle = Bundle()
         bundle.putString("fragment", AppConstants.AL_QURAN_FRAGMENT)
+        startActivity(intent)
+    }
+
+    fun switchToTasbih(){
+        var intent = Intent(this@MainActivity, FragmentActivity::class.java)
+        var bundle = Bundle()
+        bundle.putString("fragment", AppConstants.TASBIH_FRAGMENT)
+        startActivity(intent)
+    }
+
+    fun switchToRules(){
+        var intent = Intent(this@MainActivity, FragmentActivity::class.java)
+        var bundle = Bundle()
+        bundle.putString("fragment", AppConstants.RULES_FRAGMENT)
         startActivity(intent)
     }
 

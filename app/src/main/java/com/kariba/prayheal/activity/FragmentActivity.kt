@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import com.kariba.prayheal.R
 import com.kariba.prayheal.fragment.AlQuranFragment
 import com.kariba.prayheal.fragment.CarouselItemFragment
+import com.kariba.prayheal.fragment.RulesFragment
+import com.kariba.prayheal.fragment.TasbihFragment
 import com.kariba.prayheal.utils.AppConstants
 import kotlinx.android.synthetic.main.activity_fragment.*
 
@@ -33,8 +35,21 @@ class FragmentActivity : BaseActivity() {
                 AppConstants.AL_QURAN_FRAGMENT -> {
 
                     val alQuranFragment : AlQuranFragment by lazy { AlQuranFragment.newInstance() }
-                    commitFragmentTransactionAdd(alQuranFragment, "")
+                    commitFragmentTransactionAdd(alQuranFragment)
                 }
+
+                AppConstants.TASBIH_FRAGMENT -> {
+
+                    val tasbihFragment : TasbihFragment by lazy { TasbihFragment.newInstance() }
+                    commitFragmentTransactionAdd(tasbihFragment)
+                }
+
+                AppConstants.RULES_FRAGMENT -> {
+
+                    val rulesFragment : RulesFragment by lazy { RulesFragment.newInstance() }
+                    commitFragmentTransactionAdd(rulesFragment)
+                }
+
             }
         }
 
@@ -46,7 +61,7 @@ class FragmentActivity : BaseActivity() {
     }
 
 
-    fun commitFragmentTransactionAdd(fragment: Fragment, carouselItemBundle: String?) {
+    fun commitFragmentTransactionAdd(fragment: Fragment, carouselItemBundle: String? = "") {
         try {
             var bundle = Bundle()
             bundle.putString("carouselItemBundle", carouselItemBundle.toString())
