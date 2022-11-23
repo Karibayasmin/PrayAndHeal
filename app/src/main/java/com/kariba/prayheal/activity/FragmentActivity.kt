@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import com.kariba.prayheal.R
+import com.kariba.prayheal.fragment.AlQuranFragment
 import com.kariba.prayheal.fragment.CarouselItemFragment
+import com.kariba.prayheal.utils.AppConstants
 import kotlinx.android.synthetic.main.activity_fragment.*
 
 class FragmentActivity : BaseActivity() {
@@ -19,14 +21,19 @@ class FragmentActivity : BaseActivity() {
 
         intent.extras?.getString("fragment")?.let {
             when(it){
-                "carouselFragment" -> {
+                AppConstants.CAROUSEL_FRAGMENT -> {
 
                     var carouselItemBundle = intent.extras?.getString("carouselItem")
 
-                    Log.e("inside this", "1 $carouselItemBundle")
 
                     val carouselFragment : CarouselItemFragment by lazy { CarouselItemFragment.newInstance() }
                     commitFragmentTransactionAdd(carouselFragment, carouselItemBundle)
+                }
+
+                AppConstants.AL_QURAN_FRAGMENT -> {
+
+                    val alQuranFragment : AlQuranFragment by lazy { AlQuranFragment.newInstance() }
+                    commitFragmentTransactionAdd(alQuranFragment, "")
                 }
             }
         }

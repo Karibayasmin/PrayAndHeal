@@ -28,6 +28,7 @@ import com.kariba.prayheal.interfaces.onAyatClickListener
 import com.kariba.prayheal.models.CarouselResponse
 import com.kariba.prayheal.preference.AppPreference
 import com.kariba.prayheal.preference.AppPreferenceImpl
+import com.kariba.prayheal.utils.AppConstants
 import com.kariba.prayheal.utils.AppUtils
 import com.kariba.prayheal.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -58,7 +59,6 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
         component.inject(this)
 
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-        //carouselViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         binding.lifecycleOwner = this
         binding.mainViewModel = carouselViewModel
@@ -84,17 +84,19 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
         val paddingWidth = (windowManager.defaultDisplay.width / 2) - px
         recyclerViewCarousel.setPadding(paddingWidth.toInt(), 0, paddingWidth.toInt(), 0)
 
-        //carouselAdapter = AdapterCarouselView(this@MainActivity, itemClick)
         carouselAdapter.itemClick = this
 
         recyclerViewCarousel.adapter = carouselAdapter
         recyclerViewCarousel.setHasFixedSize(true)
 
-        //adapterFavoriteAyat = AdapterFavoriteAyat(this@MainActivity)
         adapterFavoriteAyat.ayatClick = this
         recyclerViewGrid.adapter = adapterFavoriteAyat
         recyclerViewGrid.layoutManager = GridLayoutManager(this, 2)
         recyclerViewGrid.setHasFixedSize(true)
+
+        binding.layoutQuran.setOnClickListener {
+            switchToAlQuran()
+        }
 
     }
 
@@ -137,9 +139,16 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
     override fun onClick(view: View, position: Int) {
         var intent = Intent(this@MainActivity, FragmentActivity::class.java)
         var bundle = Bundle()
-        bundle.putString("fragment", "carouselFragment")
+        bundle.putString("fragment", AppConstants.CAROUSEL_FRAGMENT)
         bundle.putString("carouselItem", Gson().toJson(carouselList[position]))
         intent.putExtras(bundle)
+        startActivity(intent)
+    }
+
+    fun switchToAlQuran(){
+        var intent = Intent(this@MainActivity, FragmentActivity::class.java)
+        var bundle = Bundle()
+        bundle.putString("fragment", AppConstants.AL_QURAN_FRAGMENT)
         startActivity(intent)
     }
 
