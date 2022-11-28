@@ -3,97 +3,53 @@ package com.kariba.prayheal.models
 import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import com.kariba.prayheal.R
 import java.io.Serializable
 
-
-class CarouselResponse (
+class CarouselResponse(
     @SerializedName("code")
-    var responseCode : Int? = 0,
+    var responseCode: Int? = 0,
 
     @SerializedName("status")
-    var userMessage : String? = "",
+    var userMessage: String? = "",
 
     @SerializedName("data")
-    var carouselData : CarouselData? = CarouselData(),
+    var carouselData: CarouselData? = CarouselData(),
 
-    ):Serializable{
-        class CarouselData(
-            @SerializedName("surahs")
-            var surahList : ArrayList<SurahData>? = ArrayList(),
+    ) : Serializable {
 
-            @SerializedName("edition")
-            var edition : Edition? = null
+    class CarouselData(
+        @SerializedName("surahs")
+        var surahList: ArrayList<SurahData>? = ArrayList(),
 
-        ): Serializable{
-            class SurahData(
-                @SerializedName("number")
-                var number : Int? = 0,
+        @SerializedName("edition")
+        var edition: Edition? = null
 
-                @SerializedName("name")
-                var name : String? = "",
+    ) : Serializable {
+        class SurahData(
 
-                @SerializedName("englishName")
-                var englishName : String? = "",
+            @SerializedName("number")
+            var number: Int? = 0,
 
-                @SerializedName("englishNameTranslation")
-                var englishNameTranslation : String? = "",
+            @SerializedName("name")
+            var name: String? = "",
 
-                @SerializedName("revelationType")
-                var revelationType : String? = "",
+            @SerializedName("englishName")
+            var englishName: String? = "",
 
-                @SerializedName("ayahs")
-                var ayahsList : ArrayList<AyahsData> = ArrayList()
+            @SerializedName("englishNameTranslation")
+            var englishNameTranslation: String? = "",
 
-            ):Serializable{
-                class AyahsData(
-                    @SerializedName("number")
-                    var number : Int? = 0,
+            @SerializedName("revelationType")
+            var revelationType: String? = "",
 
-                    @SerializedName("text")
-                    var text : String? = "",
+            @SerializedName("ayahs")
+            var ayahsList: ArrayList<AyahsData> = ArrayList()
 
-                    @SerializedName("numberInSurah")
-                    var numberInSurah : Int? = 0,
-
-                    @SerializedName("juz")
-                    var juz : Int? = 0,
-
-                    @SerializedName("manzil")
-                    var manzil : Int? = 0,
-
-                    @SerializedName("page")
-                    var page : Int? = 0,
-
-                    @SerializedName("ruku")
-                    var ruku : Int? = 0,
-
-                    @SerializedName("hizbQuarter")
-                    var hizbQuarter : Int? = 0,
-                ):Serializable
-            }
-
-            class Edition(
-                @SerializedName("identifier")
-                var identifier : String? = "",
-
-                @SerializedName("language")
-                var language : String? = "",
-
-                @SerializedName("name")
-                var name : String? = "",
-
-                @SerializedName("englishName")
-                var englishName : String? = "",
-
-                @SerializedName("format")
-                var format : String? = "",
-
-                @SerializedName("type")
-                var type : String? = "",
-
-                ):Serializable
-        }
-
+        ) : Serializable
     }
+
+}

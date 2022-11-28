@@ -13,10 +13,12 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.SnapHelper
+import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.google.gson.Gson
 import com.kariba.prayheal.R
 import com.kariba.prayheal.UserApplication
@@ -25,6 +27,8 @@ import com.kariba.prayheal.adapter.AdapterFavoriteAyat
 import com.kariba.prayheal.databinding.ActivityMainBinding
 import com.kariba.prayheal.interfaces.OnCarouselClickListener
 import com.kariba.prayheal.interfaces.onAyatClickListener
+import com.kariba.prayheal.localDatabase.LocalDatabase
+import com.kariba.prayheal.models.AyahsData
 import com.kariba.prayheal.models.CarouselResponse
 import com.kariba.prayheal.preference.AppPreference
 import com.kariba.prayheal.preference.AppPreferenceImpl
@@ -32,6 +36,8 @@ import com.kariba.prayheal.utils.AppConstants
 import com.kariba.prayheal.utils.AppUtils
 import com.kariba.prayheal.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -50,7 +56,9 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
     lateinit var carouselViewModel : MainViewModel
 
     private var carouselList: ArrayList<CarouselResponse.CarouselData.SurahData> = ArrayList()
-    private var ayatList: ArrayList<CarouselResponse.CarouselData.SurahData.AyahsData> = ArrayList()
+    private var ayatList: ArrayList<AyahsData> = ArrayList()
+
+    lateinit var localDatabase : LocalDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +74,42 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
     }
 
     private fun initView(binding: ActivityMainBinding) {
+
+        val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE quran ADD COLUMN id INT NOT NULL PRIMARY KEY")
+            }
+        }
+
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("DROP TABLE quran")
+            }
+        }
+
+        val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("DROP TABLE carousel")
+            }
+        }
+
+        val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("DROP TABLE surah")
+            }
+        }
+
+        val MIGRATION_5_6 = object : Migration(5, 6) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE surah ADD COLUMN id INT NOT NULL PRIMARY KEY")
+            }
+        }
+
+        localDatabase = Room.databaseBuilder(applicationContext, LocalDatabase::class.java, "quranDB")
+            .allowMainThreadQueries()
+            .enableMultiInstanceInvalidation()
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
+            .build()
 
         binding.textViewUserName.text = "${getString(R.string.dear)} ${appPreferenceImpl.getString(AppPreference.USER_NAME)}"
 
@@ -121,6 +165,14 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
                 if(data?.responseCode == 200){
 
                     appPreferenceImpl.setBoolean(AppPreference.IS_LOGGED_IN, true)
+
+                    GlobalScope.launch {
+                        for(item in data.carouselData?.surahList ?: ArrayList()){
+
+                            //localDatabase.getSurahDao().insertSurah(item)
+                        }
+                    }
+
                     carouselList.clear()
                     carouselList = data?.carouselData?.surahList ?: ArrayList()
 

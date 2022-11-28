@@ -7,13 +7,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.kariba.prayheal.R
 import com.kariba.prayheal.databinding.ItemAyahBinding
+import com.kariba.prayheal.models.AyahsData
 import com.kariba.prayheal.models.CarouselResponse
 
 class AdapterAyat(private val context: Context): RecyclerView.Adapter<AdapterAyat.AyatViewHolder>() {
 
-    var ayahList : ArrayList<CarouselResponse.CarouselData.SurahData.AyahsData> = ArrayList()
+    var ayahList : ArrayList<AyahsData> = ArrayList()
 
-    fun setAyahDataList(ayahList : ArrayList<CarouselResponse.CarouselData.SurahData.AyahsData>){
+    fun setAyahDataList(ayahList : ArrayList<AyahsData>){
         this.ayahList = ayahList
     }
 
@@ -34,7 +35,7 @@ class AdapterAyat(private val context: Context): RecyclerView.Adapter<AdapterAya
     class AyatViewHolder(private val itemBinding: ItemAyahBinding) : RecyclerView.ViewHolder(itemBinding.root){
         fun bindView(
             context: Context,
-            ayahsData: CarouselResponse.CarouselData.SurahData.AyahsData
+            ayahsData: AyahsData
         ) {
 
             itemBinding.ayahResponse = ayahsData
