@@ -135,25 +135,6 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
 
                     appPreferenceImpl.setBoolean(AppPreference.IS_LOGGED_IN, true)
 
-                    localDatabase.clearAllData()
-
-                    GlobalScope.launch {
-                        for(item in data.carouselData?.surahList ?: ArrayList()){
-
-                            var surahData = SurahData()
-                            item.let {
-                                surahData.englishName = it.englishName
-                                surahData.name = it.name
-                                surahData.number = it.number
-                                surahData.englishNameTranslation = it.englishNameTranslation
-                                surahData.revelationType = it.revelationType
-                            }
-
-                            Log.e("CheckDatabase", "enter here")
-                            localDatabase.getSurahDao().insertSurah(surahData)
-                        }
-                    }
-
                     carouselList.clear()
                     carouselList = data?.carouselData?.surahList ?: ArrayList()
 

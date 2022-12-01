@@ -9,13 +9,14 @@ import com.kariba.prayheal.R
 import com.kariba.prayheal.databinding.ItemSurahBinding
 import com.kariba.prayheal.interfaces.OnItemClickListener
 import com.kariba.prayheal.models.CarouselResponse
+import com.kariba.prayheal.models.SurahData
 import javax.inject.Inject
 
 class AdapterSurah @Inject constructor(private val context: Context) : RecyclerView.Adapter<AdapterSurah.SurahViewHolder>() {
 
-    var surahDataList : ArrayList<CarouselResponse.CarouselData.SurahData> = ArrayList()
+    var surahDataList : ArrayList<SurahData> = ArrayList()
 
-    fun setSurahData(carouselDataList : ArrayList<CarouselResponse.CarouselData.SurahData>){
+    fun setSurahData(carouselDataList : ArrayList<SurahData>){
         this.surahDataList = carouselDataList
     }
 
@@ -40,7 +41,7 @@ class AdapterSurah @Inject constructor(private val context: Context) : RecyclerV
         fun bindView(
             context: Context,
             onItemClickListener: OnItemClickListener?,
-            surahData: CarouselResponse.CarouselData.SurahData
+            surahData: SurahData
         ) {
 
             itemBinding.surahItem = surahData

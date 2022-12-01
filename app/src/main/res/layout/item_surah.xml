@@ -4,7 +4,7 @@
     <data>
         <variable
             name="surahItem"
-            type="com.kariba.prayheal.models.CarouselResponse.CarouselData.SurahData" />
+            type="com.kariba.prayheal.models.SurahData" />
     </data>
 
     <RelativeLayout

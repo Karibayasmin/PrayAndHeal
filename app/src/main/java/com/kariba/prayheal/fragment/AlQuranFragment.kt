@@ -21,10 +21,14 @@ import com.kariba.prayheal.activity.FragmentActivity
 import com.kariba.prayheal.adapter.AdapterSurah
 import com.kariba.prayheal.databinding.FragmentAlQuranBinding
 import com.kariba.prayheal.interfaces.OnItemClickListener
+import com.kariba.prayheal.localDatabase.LocalDatabase
 import com.kariba.prayheal.models.CarouselResponse
+import com.kariba.prayheal.models.SurahData
 import com.kariba.prayheal.utils.AppConstants
 import com.kariba.prayheal.utils.AppUtils
 import com.kariba.prayheal.viewmodels.MainViewModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -36,8 +40,10 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener {
     @Inject
     lateinit var adapterSurah: AdapterSurah
 
-    var surahList: ArrayList<CarouselResponse.CarouselData.SurahData> = ArrayList()
-    var surahTemporaryList: ArrayList<CarouselResponse.CarouselData.SurahData> = ArrayList()
+    lateinit var localDatabase: LocalDatabase
+
+    var surahList: ArrayList<SurahData> = ArrayList()
+    var surahTemporaryList: ArrayList<SurahData> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,9 +71,11 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener {
 
     private fun initView(binding: FragmentAlQuranBinding, context: Context) {
 
+        localDatabase = LocalDatabase.getDatabase(context)
+
         Log.e("AlQuranFragment", "Enter here 2")
 
-        loadSurahData(context)
+        fetchSurahData(context)
 
         binding.recyclerViewSurah.adapter = adapterSurah
         binding.recyclerViewSurah.setHasFixedSize(true)
@@ -76,6 +84,24 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener {
         adapterSurah.onItemClickListener = this
 
 
+    }
+
+    private fun fetchSurahData(context: Context) {
+        localDatabase.getSurahDao().getSurahList().observe(viewLifecycleOwner, object : Observer<List<SurahData>>{
+            override fun onChanged(data: List<SurahData>) {
+
+                if(data.size != 0){
+                    surahList.clear()
+                    surahList = data as ArrayList<SurahData>
+                    updateList()
+
+                    return
+                }else {
+                    loadSurahData(context)
+                }
+            }
+
+        })
     }
 
     private fun loadSurahData(context: Context) {
@@ -88,14 +114,32 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener {
 
         mainViewModel.getCarouselResponse(context)
             .observe(viewLifecycleOwner, object : Observer<CarouselResponse> {
-                override fun onChanged(data: CarouselResponse?) {
+                override fun onChanged(data: CarouselResponse) {
 
                     progressDialog.dismiss()
 
-                    surahList.clear()
-                    surahList = data?.carouselData?.surahList ?: ArrayList()
+                    localDatabase.clearAllData()
 
-                    updateList()
+                    GlobalScope.launch {
+                        for((index, item) in data.carouselData?.surahList?.withIndex() ?: ArrayList()){
+
+                            var surahData = SurahData()
+                            item.let {
+                                surahData.englishName = it.englishName
+                                surahData.name = it.name
+                                surahData.number = it.number
+                                surahData.englishNameTranslation = it.englishNameTranslation
+                                surahData.revelationType = it.revelationType
+                            }
+
+                            Log.e("CheckDatabase", "enter here")
+                            localDatabase.getSurahDao().insertSurah(surahData)
+
+                            if(index == 144){
+                                fetchSurahData(context)
+                            }
+                        }
+                    }
 
                 }
 
