@@ -6,10 +6,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 @Entity(tableName = "surah")
-class Surah (
-    @PrimaryKey(autoGenerate = true)
-    var id: Long? = 0,
-
+class SurahData (
     @SerializedName("number")
     var number: Int? = 0,
 
@@ -25,4 +22,8 @@ class Surah (
     @SerializedName("revelationType")
     var revelationType: String? = "",
 
-) : Serializable
+) : Serializable{
+
+    @PrimaryKey(autoGenerate = true)
+    var id: Long? = null
+}

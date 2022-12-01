@@ -2,20 +2,20 @@ package com.kariba.prayheal.localDatabase.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.kariba.prayheal.models.Surah
+import com.kariba.prayheal.models.SurahData
 
 @Dao
 interface SurahDao {
 
-    @Insert
-    fun insertSurah (surah: Surah)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertSurah (surahData: SurahData)
 
     @Update
-    fun updateSurah (surah: Surah)
+    suspend fun updateSurah (surahData: SurahData)
 
     @Delete
-    fun deleteSurah (surah: Surah)
+    suspend fun deleteSurah (surahData: SurahData)
 
     @Query("SELECT * FROM surah")
-    fun getSurahList () : LiveData<List<Surah>>
+    fun getSurahList () : LiveData<List<SurahData>>
 }

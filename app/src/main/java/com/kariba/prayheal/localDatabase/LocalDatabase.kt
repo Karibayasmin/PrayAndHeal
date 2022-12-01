@@ -6,12 +6,16 @@ import com.kariba.prayheal.localDatabase.dao.AyahDao
 import com.kariba.prayheal.localDatabase.dao.SurahDao
 import com.kariba.prayheal.models.AyahsData
 import com.kariba.prayheal.models.Edition
-import com.kariba.prayheal.models.Surah
+import com.kariba.prayheal.models.SurahData
 
-@Database(entities = [Edition::class, AyahsData::class, Surah::class], version = 6, exportSchema = false)
+@Database(entities = [Edition::class, AyahsData::class, SurahData::class], version = 7, exportSchema = false)
 abstract class LocalDatabase : RoomDatabase(){
 
     abstract fun getAyahDao() : AyahDao
     abstract fun getSurahDao() : SurahDao
+
+    /*fun clearAllData() {
+        database?.clearAllTables()
+    }*/
 
 }

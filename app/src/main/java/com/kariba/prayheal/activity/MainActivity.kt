@@ -6,6 +6,7 @@ import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.Window
@@ -30,6 +31,7 @@ import com.kariba.prayheal.interfaces.onAyatClickListener
 import com.kariba.prayheal.localDatabase.LocalDatabase
 import com.kariba.prayheal.models.AyahsData
 import com.kariba.prayheal.models.CarouselResponse
+import com.kariba.prayheal.models.SurahData
 import com.kariba.prayheal.preference.AppPreference
 import com.kariba.prayheal.preference.AppPreferenceImpl
 import com.kariba.prayheal.utils.AppConstants
@@ -105,15 +107,50 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
             }
         }
 
+        /*val MIGRATION_6_7 = object : Migration(6, 7) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("DROP TABLE surah")
+            }
+        }
+
+        val MIGRATION_7_8 = object : Migration(7, 8) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                val sql = "CREATE TABLE IF NOT EXISTS `surahData` (`id` INTEGER NOT NULL,`number` INTEGER NOT NULL, `name` TEXT, `englishName` TEXT,`englishNameTranslation` TEXT,`revelationType` TEXT," +
+                        " `selected` INTEGER NOT NULL, PRIMARY KEY(`id`));"
+                database.execSQL(sql)
+            }
+        }
+
+        val MIGRATION_8_9 = object : Migration(6, 7) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("DROP TABLE surahData")
+            }
+        }*/
+
+        val MIGRATION_6_7 = object : Migration(6, 7) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE surah ADD COLUMN id INT NOT NULL PRIMARY KEY")
+            }
+        }
+
         localDatabase = Room.databaseBuilder(applicationContext, LocalDatabase::class.java, "quranDB")
             .allowMainThreadQueries()
             .enableMultiInstanceInvalidation()
-            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
+            .addMigrations(MIGRATION_1_2,
+                MIGRATION_2_3,
+                MIGRATION_3_4,
+                MIGRATION_4_5,
+                MIGRATION_5_6,
+                MIGRATION_6_7,
+                /*MIGRATION_7_8,
+                MIGRATION_8_9,
+                MIGRATION_9_10*/)
             .build()
 
         binding.textViewUserName.text = "${getString(R.string.dear)} ${appPreferenceImpl.getString(AppPreference.USER_NAME)}"
 
         loadCarouselData()
+        loadSurah()
 
         var snapHelper: SnapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(recyclerViewCarousel)
@@ -151,6 +188,16 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
 
     }
 
+    private fun loadSurah() {
+        localDatabase.getSurahDao().getSurahList().observe(this, object : Observer<List<SurahData>>{
+            override fun onChanged(dataList: List<SurahData>?) {
+                Log.e("CheckData", dataList?.size.toString())
+            }
+
+
+        })
+    }
+
     private fun loadCarouselData() {
         if(!AppUtils.hasNetworkConnection(this)){
             AppUtils.showToast(this, getString(R.string.no_internet), false)
@@ -169,7 +216,17 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
                     GlobalScope.launch {
                         for(item in data.carouselData?.surahList ?: ArrayList()){
 
-                            //localDatabase.getSurahDao().insertSurah(item)
+                            var surahData = SurahData()
+                            item.let {
+                                surahData.englishName = it.englishName
+                                surahData.name = it.name
+                                surahData.number = it.number
+                                surahData.englishNameTranslation = it.englishNameTranslation
+                                surahData.revelationType = it.revelationType
+                            }
+
+                            Log.e("CheckDatabase", "enter here")
+                            localDatabase.getSurahDao().insertSurah(surahData)
                         }
                     }
 
