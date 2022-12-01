@@ -44,20 +44,33 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewCarousel"
+            <RelativeLayout
+                android:id="@+id/layout_carousel"
+                android:layout_below="@+id/textView_favorite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textView_favorite"
-                android:layout_marginTop="8dp"
-                android:clipToPadding="false"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_carousel_view" />
+                android:layout_marginTop="8dp">
+
+                <include
+                    layout="@layout/layout_no_data_available"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewCarousel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_carousel_view"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textView_favorite_ayat"
-                android:layout_below="@+id/recyclerViewCarousel"
+                android:layout_below="@+id/layout_carousel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -67,19 +80,33 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewGrid"
+            <RelativeLayout
+                android:id="@+id/layout_gridView"
+                android:layout_below="@+id/textView_favorite_ayat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textView_favorite_ayat"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="10dp"
-                tools:listitem="@layout/item_favorite_ayat" />
+                android:layout_marginTop="8dp">
+
+                <include
+                    layout="@layout/layout_no_data_available"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewGrid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"
+                    tools:listitem="@layout/item_favorite_ayat"
+                    android:visibility="gone"/>
+
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/layout_quran"
-                android:layout_below="@+id/recyclerViewGrid"
+                android:layout_below="@+id/layout_gridView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"

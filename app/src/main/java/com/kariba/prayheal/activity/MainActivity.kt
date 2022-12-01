@@ -77,80 +77,12 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
 
     private fun initView(binding: ActivityMainBinding) {
 
-        val MIGRATION_1_2 = object : Migration(1, 2) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("ALTER TABLE quran ADD COLUMN id INT NOT NULL PRIMARY KEY")
-            }
-        }
-
-        val MIGRATION_2_3 = object : Migration(2, 3) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("DROP TABLE quran")
-            }
-        }
-
-        val MIGRATION_3_4 = object : Migration(3, 4) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("DROP TABLE carousel")
-            }
-        }
-
-        val MIGRATION_4_5 = object : Migration(4, 5) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("DROP TABLE surah")
-            }
-        }
-
-        val MIGRATION_5_6 = object : Migration(5, 6) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("ALTER TABLE surah ADD COLUMN id INT NOT NULL PRIMARY KEY")
-            }
-        }
-
-        /*val MIGRATION_6_7 = object : Migration(6, 7) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("DROP TABLE surah")
-            }
-        }
-
-        val MIGRATION_7_8 = object : Migration(7, 8) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                val sql = "CREATE TABLE IF NOT EXISTS `surahData` (`id` INTEGER NOT NULL,`number` INTEGER NOT NULL, `name` TEXT, `englishName` TEXT,`englishNameTranslation` TEXT,`revelationType` TEXT," +
-                        " `selected` INTEGER NOT NULL, PRIMARY KEY(`id`));"
-                database.execSQL(sql)
-            }
-        }
-
-        val MIGRATION_8_9 = object : Migration(6, 7) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("DROP TABLE surahData")
-            }
-        }*/
-
-        val MIGRATION_6_7 = object : Migration(6, 7) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("ALTER TABLE surah ADD COLUMN id INT NOT NULL PRIMARY KEY")
-            }
-        }
-
-        localDatabase = Room.databaseBuilder(applicationContext, LocalDatabase::class.java, "quranDB")
-            .allowMainThreadQueries()
-            .enableMultiInstanceInvalidation()
-            .addMigrations(MIGRATION_1_2,
-                MIGRATION_2_3,
-                MIGRATION_3_4,
-                MIGRATION_4_5,
-                MIGRATION_5_6,
-                MIGRATION_6_7,
-                /*MIGRATION_7_8,
-                MIGRATION_8_9,
-                MIGRATION_9_10*/)
-            .build()
+        localDatabase = LocalDatabase.getDatabase(this)
 
         binding.textViewUserName.text = "${getString(R.string.dear)} ${appPreferenceImpl.getString(AppPreference.USER_NAME)}"
 
-        loadCarouselData()
-        loadSurah()
+        //loadCarouselData()
+        //loadSurah()
 
         var snapHelper: SnapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(recyclerViewCarousel)
@@ -188,16 +120,6 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
 
     }
 
-    private fun loadSurah() {
-        localDatabase.getSurahDao().getSurahList().observe(this, object : Observer<List<SurahData>>{
-            override fun onChanged(dataList: List<SurahData>?) {
-                Log.e("CheckData", dataList?.size.toString())
-            }
-
-
-        })
-    }
-
     private fun loadCarouselData() {
         if(!AppUtils.hasNetworkConnection(this)){
             AppUtils.showToast(this, getString(R.string.no_internet), false)
@@ -212,6 +134,8 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
                 if(data?.responseCode == 200){
 
                     appPreferenceImpl.setBoolean(AppPreference.IS_LOGGED_IN, true)
+
+                    localDatabase.clearAllData()
 
                     GlobalScope.launch {
                         for(item in data.carouselData?.surahList ?: ArrayList()){
