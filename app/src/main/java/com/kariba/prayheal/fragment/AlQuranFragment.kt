@@ -22,6 +22,7 @@ import com.kariba.prayheal.adapter.AdapterSurah
 import com.kariba.prayheal.databinding.FragmentAlQuranBinding
 import com.kariba.prayheal.interfaces.OnItemClickListener
 import com.kariba.prayheal.localDatabase.LocalDatabase
+import com.kariba.prayheal.models.AyahsData
 import com.kariba.prayheal.models.CarouselResponse
 import com.kariba.prayheal.models.SurahData
 import com.kariba.prayheal.utils.AppConstants
@@ -43,6 +44,7 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener {
     lateinit var localDatabase: LocalDatabase
 
     var surahList: ArrayList<SurahData> = ArrayList()
+    var ayahList: ArrayList<AyahsData> = ArrayList()
     var surahTemporaryList: ArrayList<SurahData> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,6 +106,24 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener {
         })
     }
 
+    private fun fetchAyahData(context: Context) {
+        localDatabase.getAyahDao().getAyahList().observe(viewLifecycleOwner, object : Observer<List<AyahsData>>{
+            override fun onChanged(data: List<AyahsData>) {
+
+                if(data.size != 0){
+                    ayahList.clear()
+                    ayahList = data as ArrayList<AyahsData>
+
+                    return
+                }else {
+                    loadSurahData(context)
+                }
+
+            }
+
+        })
+    }
+
     private fun loadSurahData(context: Context) {
         if (!AppUtils.hasNetworkConnection(context)) {
             AppUtils.showToast(context, getString(R.string.no_internet), false)
@@ -132,11 +152,30 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener {
                                 surahData.revelationType = it.revelationType
                             }
 
-                            Log.e("CheckDatabase", "enter here")
                             localDatabase.getSurahDao().insertSurah(surahData)
+
+
+                            for((index, value) in item.ayahsList.withIndex()){
+                                var ayahsData = AyahsData()
+
+                                value.let {
+                                    ayahsData.hizbQuarter = it.hizbQuarter
+                                    ayahsData.number = it.number
+                                    ayahsData.juz = it.juz
+                                    ayahsData.numberInSurah = it.numberInSurah
+                                    ayahsData.manzil = it.manzil
+                                    ayahsData.ruku = it.ruku
+                                    ayahsData.page = it.page
+                                    ayahsData.text = it.text
+                                }
+
+                                localDatabase.getAyahDao().insertAyah(ayahsData)
+                            }
+
 
                             if(index == 144){
                                 fetchSurahData(context)
+                                fetchAyahData(context)
                             }
                         }
                     }
@@ -188,6 +227,7 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener {
         var bundle = Bundle()
         bundle.putString("fragment", AppConstants.CAROUSEL_FRAGMENT)
         bundle.putString("carouselItem", Gson().toJson(surahTemporaryList[position]))
+        bundle.putString("ayahList", Gson().toJson(ayahList))
         intent.putExtras(bundle)
         startActivity(intent)
     }

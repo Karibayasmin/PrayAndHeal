@@ -8,7 +8,7 @@ import java.io.Serializable
 @Entity(tableName = "ayah")
 class AyahsData(
     @PrimaryKey(autoGenerate = true)
-    var id: Long? = 0,
+    var id: Long? = null,
 
     @SerializedName("number")
     var number: Int? = 0,

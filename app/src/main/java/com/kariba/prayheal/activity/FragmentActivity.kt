@@ -24,9 +24,10 @@ class FragmentActivity : BaseActivity() {
                 AppConstants.CAROUSEL_FRAGMENT -> {
 
                     var carouselItemBundle = intent.extras?.getString("carouselItem")
+                    var ayahItemBundle = intent.extras?.getString("ayahList")
 
                     val carouselFragment : CarouselItemFragment by lazy { CarouselItemFragment.newInstance() }
-                    commitFragmentTransactionAdd(carouselFragment, AppConstants.CAROUSEL_FRAGMENT, carouselItemBundle)
+                    commitFragmentTransactionAdd(carouselFragment, AppConstants.CAROUSEL_FRAGMENT, carouselItemBundle, ayahItemBundle)
                 }
 
                 AppConstants.AL_QURAN_FRAGMENT -> {
@@ -58,10 +59,11 @@ class FragmentActivity : BaseActivity() {
     }
 
 
-    fun commitFragmentTransactionAdd(fragment: Fragment, tag : String, carouselItemBundle: String? = "") {
+    fun commitFragmentTransactionAdd(fragment: Fragment, tag : String, carouselItemBundle: String? = "", ayahItemBundle: String? = "") {
         try {
             var bundle = Bundle()
             bundle.putString("carouselItemBundle", carouselItemBundle.toString())
+            bundle.putString("ayahItemBundle", carouselItemBundle.toString())
 
             fragment.arguments  = bundle
 

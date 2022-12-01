@@ -12,12 +12,14 @@ import com.google.gson.Gson
 import com.kariba.prayheal.R
 import com.kariba.prayheal.adapter.AdapterAyat
 import com.kariba.prayheal.databinding.FragmentCarouselItemBinding
+import com.kariba.prayheal.models.AyahsData
 import com.kariba.prayheal.models.CarouselResponse
 import kotlinx.android.synthetic.main.fragment_carousel_item.*
 
 class CarouselItemFragment : Fragment() {
 
     var carouselItem : CarouselResponse.CarouselData.SurahData = CarouselResponse.CarouselData.SurahData()
+    var ayahItem : AyahsData = AyahsData()
 
     lateinit var ayahAdapter : AdapterAyat
 
@@ -47,9 +49,11 @@ class CarouselItemFragment : Fragment() {
         val bundle = arguments
         bundle.let {
             var carouselBundle = it?.getString("carouselItemBundle")
+            var ayahItemBundle = it?.getString("ayahItemBundle")
 
 
             carouselItem = Gson().fromJson(carouselBundle, CarouselResponse.CarouselData.SurahData::class.java)
+
 
             ayahAdapter.setAyahDataList(carouselItem.ayahsList)
             ayahAdapter.notifyDataSetChanged()
