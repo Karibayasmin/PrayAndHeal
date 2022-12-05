@@ -5,8 +5,7 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?actionBarSize"
-    tools:ignore="MissingConstraints"
-    android:background="@color/white_salt">
+    tools:ignore="MissingConstraints">
 
     <RelativeLayout
         android:layout_width="match_parent"

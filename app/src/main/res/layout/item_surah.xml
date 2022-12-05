@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -16,15 +17,50 @@
         android:layout_marginEnd="20dp"
         android:layout_marginTop="8dp">
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageView_book"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_open_book"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"/>
+
+        <LinearLayout
+            android:id="@+id/layout_surah_name"
+            android:layout_toEndOf="@+id/imageView_book"
+            android:layout_toStartOf="@+id/imageView_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{surahItem.englishName}"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:layout_centerHorizontal="true"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp"/>
+            android:paddingBottom="8dp"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{surahItem.name}"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{surahItem.englishName}"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageView_favorite"
+            android:layout_alignParentEnd="true"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_heart_one"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"/>
 
     </RelativeLayout>
 
