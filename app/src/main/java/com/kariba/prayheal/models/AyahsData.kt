@@ -33,4 +33,8 @@ class AyahsData(
 
     @SerializedName("hizbQuarter")
     var hizbQuarter: Int? = 0,
+
+    @SerializedName("englishName")
+    var englishName: String? = "",
+
 ) : Serializable

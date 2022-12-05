@@ -44,7 +44,6 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener {
     lateinit var localDatabase: LocalDatabase
 
     var surahList: ArrayList<SurahData> = ArrayList()
-    var ayahList: ArrayList<AyahsData> = ArrayList()
     var surahTemporaryList: ArrayList<SurahData> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,24 +105,6 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener {
         })
     }
 
-    private fun fetchAyahData(context: Context) {
-        localDatabase.getAyahDao().getAyahList().observe(viewLifecycleOwner, object : Observer<List<AyahsData>>{
-            override fun onChanged(data: List<AyahsData>) {
-
-                if(data.size != 0){
-                    ayahList.clear()
-                    ayahList = data as ArrayList<AyahsData>
-
-                    return
-                }else {
-                    loadSurahData(context)
-                }
-
-            }
-
-        })
-    }
-
     private fun loadSurahData(context: Context) {
         if (!AppUtils.hasNetworkConnection(context)) {
             AppUtils.showToast(context, getString(R.string.no_internet), false)
@@ -167,6 +148,7 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener {
                                     ayahsData.ruku = it.ruku
                                     ayahsData.page = it.page
                                     ayahsData.text = it.text
+                                    ayahsData.englishName = item.englishName
                                 }
 
                                 localDatabase.getAyahDao().insertAyah(ayahsData)
@@ -175,7 +157,6 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener {
 
                             if(index == 144){
                                 fetchSurahData(context)
-                                fetchAyahData(context)
                             }
                         }
                     }
@@ -227,7 +208,6 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener {
         var bundle = Bundle()
         bundle.putString("fragment", AppConstants.CAROUSEL_FRAGMENT)
         bundle.putString("carouselItem", Gson().toJson(surahTemporaryList[position]))
-        bundle.putString("ayahList", Gson().toJson(ayahList))
         intent.putExtras(bundle)
         startActivity(intent)
     }

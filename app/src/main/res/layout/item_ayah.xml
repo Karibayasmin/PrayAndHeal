@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{ayahResponse.text}"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:textColor="@color/blue"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"

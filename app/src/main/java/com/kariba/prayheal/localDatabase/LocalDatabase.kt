@@ -12,7 +12,7 @@ import com.kariba.prayheal.models.AyahsData
 import com.kariba.prayheal.models.Edition
 import com.kariba.prayheal.models.SurahData
 
-@Database(entities = [Edition::class, AyahsData::class, SurahData::class], version = 7, exportSchema = false)
+@Database(entities = [Edition::class, AyahsData::class, SurahData::class], version = 8, exportSchema = false)
 abstract class LocalDatabase : RoomDatabase(){
 
     abstract fun getAyahDao() : AyahDao
@@ -55,6 +55,12 @@ abstract class LocalDatabase : RoomDatabase(){
             }
         }
 
+        val MIGRATION_7_8 = object : Migration(7, 8) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE ayah ADD COLUMN englishName TEXT NOT NULL DEFAULT ''")
+            }
+        }
+
         @Volatile
         private var INSTANCE : LocalDatabase? = null
 
@@ -69,7 +75,8 @@ abstract class LocalDatabase : RoomDatabase(){
                             MIGRATION_3_4,
                             MIGRATION_4_5,
                             MIGRATION_5_6,
-                            MIGRATION_6_7)
+                            MIGRATION_6_7,
+                            MIGRATION_7_8)
                         .build()
                 }
             }

@@ -8,20 +8,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.kariba.prayheal.R
 import com.kariba.prayheal.adapter.AdapterAyat
 import com.kariba.prayheal.databinding.FragmentCarouselItemBinding
+import com.kariba.prayheal.localDatabase.LocalDatabase
 import com.kariba.prayheal.models.AyahsData
 import com.kariba.prayheal.models.CarouselResponse
 import kotlinx.android.synthetic.main.fragment_carousel_item.*
+import java.lang.reflect.Type
 
 class CarouselItemFragment : Fragment() {
 
     var carouselItem : CarouselResponse.CarouselData.SurahData = CarouselResponse.CarouselData.SurahData()
-    var ayahItem : AyahsData = AyahsData()
+    var ayahList: ArrayList<AyahsData> = ArrayList()
 
     lateinit var ayahAdapter : AdapterAyat
+
+    lateinit var localDatabase : LocalDatabase
+
+    var surahName = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +50,7 @@ class CarouselItemFragment : Fragment() {
     private fun initView(binding: FragmentCarouselItemBinding, context: Context) {
 
         ayahAdapter = AdapterAyat(context)
+        localDatabase = LocalDatabase.getDatabase(context)
 
         binding.recyclerviewList.adapter = ayahAdapter
         binding.recyclerviewList.setHasFixedSize(true)
@@ -51,20 +60,45 @@ class CarouselItemFragment : Fragment() {
             var carouselBundle = it?.getString("carouselItemBundle")
             var ayahItemBundle = it?.getString("ayahItemBundle")
 
-
             carouselItem = Gson().fromJson(carouselBundle, CarouselResponse.CarouselData.SurahData::class.java)
 
-
-            ayahAdapter.setAyahDataList(carouselItem.ayahsList)
-            ayahAdapter.notifyDataSetChanged()
         }
 
         carouselItem.let {
-            binding.textViewName.text = carouselItem.name
-            binding.textViewEnglishName.text = carouselItem.englishName
-            binding.textViewTranslation.text = carouselItem.englishNameTranslation
-            binding.textViewRevelationType.text = carouselItem.revelationType
+            binding.textViewName.text = it.name
+            binding.textViewEnglishName.text = it.englishName
+            surahName = it.englishName.toString()
+            binding.textViewTranslation.text = it.englishNameTranslation
+            binding.textViewRevelationType.text = it.revelationType
         }
+
+        fetchAyahData(context)
+
+    }
+
+    private fun fetchAyahData(context: Context) {
+        localDatabase.getAyahDao().getAyahList().observe(viewLifecycleOwner, object :
+            Observer<List<AyahsData>> {
+            override fun onChanged(data: List<AyahsData>) {
+
+                if(data.size != 0){
+                    ayahList.clear()
+
+                    for(item in data){
+                        if(surahName.toLowerCase() == item.englishName?.toLowerCase()){
+                            ayahList.add(item)
+                        }
+                    }
+
+                    ayahAdapter.setAyahDataList(ayahList)
+                    ayahAdapter.notifyDataSetChanged()
+
+                    return
+                }
+
+            }
+
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
