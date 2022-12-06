@@ -152,6 +152,7 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener,
                                 var ayahsData = AyahsData()
 
                                 value.let {
+                                    ayahsData.isFavorite = false
                                     ayahsData.hizbQuarter = it.hizbQuarter
                                     ayahsData.number = it.number
                                     ayahsData.juz = it.juz

@@ -37,4 +37,7 @@ class AyahsData(
     @SerializedName("englishName")
     var englishName: String? = "",
 
+    @SerializedName("isFavorite")
+    var isFavorite: Boolean? = false
+
 ) : Serializable
