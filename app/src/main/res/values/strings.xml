@@ -24,5 +24,6 @@
     <!--QuranFragment-->
     <string name="search">Search</string>
     <string name="no_data_available_at_this_moment">no data available at this moment</string>
+    <string name="ok">Ok</string>
 
 </resources>

@@ -22,6 +22,9 @@ class SurahData (
     @SerializedName("revelationType")
     var revelationType: String? = "",
 
+    @SerializedName("isFavorite")
+    var isFavorite: Boolean? = false
+
 ) : Serializable{
 
     @PrimaryKey(autoGenerate = true)

@@ -59,20 +59,23 @@ class AdapterSurah @Inject constructor(private val context: Context) : RecyclerV
                 onItemClickListener?.onClick(it, adapterPosition)
             }
 
-            if(surahData.englishName?.toLowerCase()?.contains("al-faatiha") == true){
-                /*Glide.with(context)
+            itemBinding.imageViewFavorite.setOnClickListener {
+                onFavoriteClickListener?.favoriteSurahClick(it, adapterPosition)
+            }
+
+            if(surahData.isFavorite == true){
+                itemBinding.imageViewFavorite.setColorFilter(ContextCompat.getColor(context, R.color.red_apple))
+                return
+            }else{
+                itemBinding.imageViewFavorite.setColorFilter(ContextCompat.getColor(context, R.color.white))
+                return
+            }
+
+            /*Glide.with(context)
                     .load(ContextCompat.getDrawable(context, R.drawable.ic_heart_two))
                     .error(ContextCompat.getDrawable(context, R.drawable.ic_heart_one))
                     .placeholder(ContextCompat.getDrawable(context, R.drawable.ic_heart_one))
                     .into(itemBinding.imageViewFavorite)*/
-
-                itemBinding.imageViewFavorite.setColorFilter(ContextCompat.getColor(context, R.color.red_apple))
-                return
-            }
-
-            itemBinding.imageViewFavorite.setOnClickListener {
-                onFavoriteClickListener?.favoriteSurahClick(it, adapterPosition)
-            }
 
         }
 

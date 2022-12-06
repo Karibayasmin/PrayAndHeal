@@ -12,7 +12,7 @@ import com.kariba.prayheal.models.AyahsData
 import com.kariba.prayheal.models.Edition
 import com.kariba.prayheal.models.SurahData
 
-@Database(entities = [Edition::class, AyahsData::class, SurahData::class], version = 8, exportSchema = false)
+@Database(entities = [Edition::class, AyahsData::class, SurahData::class], version = 9, exportSchema = false)
 abstract class LocalDatabase : RoomDatabase(){
 
     abstract fun getAyahDao() : AyahDao
@@ -61,6 +61,12 @@ abstract class LocalDatabase : RoomDatabase(){
             }
         }
 
+        val MIGRATION_8_9 = object : Migration(8, 9) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE surah ADD COLUMN isFavorite INTEGER")
+            }
+        }
+
         @Volatile
         private var INSTANCE : LocalDatabase? = null
 
@@ -76,7 +82,8 @@ abstract class LocalDatabase : RoomDatabase(){
                             MIGRATION_4_5,
                             MIGRATION_5_6,
                             MIGRATION_6_7,
-                            MIGRATION_7_8)
+                            MIGRATION_7_8,
+                            MIGRATION_8_9)
                         .build()
                 }
             }

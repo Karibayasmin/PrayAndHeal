@@ -1,19 +1,25 @@
 package com.kariba.prayheal.fragment
 
-import android.content.ContentValues.TAG
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
+import android.view.Window
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.card.MaterialCardView
 import com.google.gson.Gson
 import com.kariba.prayheal.R
 import com.kariba.prayheal.UserApplication
@@ -21,7 +27,6 @@ import com.kariba.prayheal.activity.FragmentActivity
 import com.kariba.prayheal.adapter.AdapterSurah
 import com.kariba.prayheal.databinding.FragmentAlQuranBinding
 import com.kariba.prayheal.interfaces.FavoriteSurahClickListener
-import com.kariba.prayheal.interfaces.OnCarouselClickListener
 import com.kariba.prayheal.interfaces.OnItemClickListener
 import com.kariba.prayheal.localDatabase.LocalDatabase
 import com.kariba.prayheal.models.AyahsData
@@ -136,6 +141,7 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener,
                                 surahData.number = it.number
                                 surahData.englishNameTranslation = it.englishNameTranslation
                                 surahData.revelationType = it.revelationType
+                                surahData.isFavorite = false
                             }
 
                             localDatabase.getSurahDao().insertSurah(surahData)
@@ -218,5 +224,102 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener,
     }
 
     override fun favoriteSurahClick(view: View, position: Int) {
+        showSuccessAlert(false,  surahTemporaryList[position])
+    }
+
+    private fun showSuccessAlert(isShowError: Boolean, surahData: SurahData) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.alert_dialog_custom)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val titleText = dialog.findViewById(R.id.titleText) as AppCompatTextView
+        val messageText = dialog.findViewById(R.id.messageText) as AppCompatTextView
+        val buttonCross = dialog.findViewById(R.id.crossButton) as AppCompatImageView
+        val buttonOk = dialog.findViewById(R.id.okButton) as MaterialButton
+        val topBackground = dialog.findViewById(R.id.topCardView) as MaterialCardView
+        val topImageView = dialog.findViewById(R.id.topCardImage) as AppCompatImageView
+
+        titleText.text = getString(R.string.app_name)
+
+        if(surahData.isFavorite == false){
+            messageText.text = "Do you want to make this Surah favorite?"
+
+        }else{
+            messageText.text = "Do you want to undo this Surah from favorite?"
+        }
+
+        titleText.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (isShowError) R.color.colorAccent else R.color.black
+            )
+        )
+
+        topBackground.setCardBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (isShowError) R.color.colorAccent else R.color.white_snow
+            )
+        )
+        buttonOk.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                if (isShowError) R.color.colorAccent else R.color.red_apple
+            )
+        )
+        topImageView.setImageDrawable(
+            ContextCompat.getDrawable(
+                requireContext(),
+                if (isShowError) R.drawable.ic_favorite else R.drawable.ic_favorite
+            )
+        )
+
+        buttonCross.setOnClickListener {
+
+            dialog.dismiss()
+        }
+
+        buttonOk.setOnClickListener {
+
+            if(surahData.isFavorite == false){
+                GlobalScope.launch {
+                    var updateSurah = SurahData()
+                    surahData.let {
+                        updateSurah.id = it.id
+                        updateSurah.isFavorite = true
+                        updateSurah.englishName = it.englishName
+                        updateSurah.name = it.name
+                        updateSurah.number = it.number
+                        updateSurah.englishNameTranslation = it. englishNameTranslation
+                        updateSurah.revelationType = it.revelationType
+                    }
+                    localDatabase.getSurahDao().updateSurah(updateSurah)
+                }
+
+            }else{
+
+                GlobalScope.launch {
+                    var updateSurah = SurahData()
+                    surahData.let {
+                        updateSurah.id = it.id
+                        updateSurah.isFavorite = false
+                        updateSurah.englishName = it.englishName
+                        updateSurah.name = it.name
+                        updateSurah.number = it.number
+                        updateSurah.englishNameTranslation = it. englishNameTranslation
+                        updateSurah.revelationType = it.revelationType
+                    }
+                    localDatabase.getSurahDao().updateSurah(updateSurah)
+                }
+            }
+
+            fetchSurahData(requireContext())
+
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }
