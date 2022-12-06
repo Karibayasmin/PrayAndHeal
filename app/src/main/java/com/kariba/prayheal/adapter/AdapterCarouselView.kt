@@ -9,12 +9,13 @@ import com.kariba.prayheal.R
 import com.kariba.prayheal.databinding.ItemCarouselViewBinding
 import com.kariba.prayheal.interfaces.OnCarouselClickListener
 import com.kariba.prayheal.models.CarouselResponse
+import com.kariba.prayheal.models.SurahData
 
 class AdapterCarouselView(private val context: Context) : RecyclerView.Adapter<AdapterCarouselView.AdapterCarouselViewHolder>() {
 
-    var carouselDataList : ArrayList<CarouselResponse.CarouselData.SurahData> = ArrayList()
+    var carouselDataList : ArrayList<SurahData> = ArrayList()
 
-    fun setCarouselList(list : ArrayList<CarouselResponse.CarouselData.SurahData>){
+    fun setCarouselList(list : ArrayList<SurahData>){
         carouselDataList = list
     }
 
@@ -36,7 +37,7 @@ class AdapterCarouselView(private val context: Context) : RecyclerView.Adapter<A
     }
 
     class AdapterCarouselViewHolder(private var itemBinding: ItemCarouselViewBinding) : RecyclerView.ViewHolder(itemBinding.root){
-          fun bindView(context: Context, data: CarouselResponse.CarouselData.SurahData, itemClick: OnCarouselClickListener, position: Int) {
+          fun bindView(context: Context, data: SurahData, itemClick: OnCarouselClickListener, position: Int) {
 
               itemBinding.carouselResponse = data
               itemBinding.executePendingBindings()

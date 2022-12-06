@@ -5,6 +5,12 @@
     <string name="please_wait">Please wait</string>
     <string name="no_internet">Please Check your network connection</string>
     <string name="common_error">Something went wrong, please try again</string>
+    <string name="toast_type_success">success</string>
+    <string name="toast_type_error">error</string>
+    <string name="toast_type_warning">warning</string>
+    <string name="common_success">Success</string>
+    <string name="successfully_added">Successfully added</string>
+    <string name="successfully_removed">Successfully Removed</string>
 
     <!--MainActivity-->
     <string name="dear">Dear,</string>

@@ -17,9 +17,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.SnapHelper
-import androidx.room.Room
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.google.gson.Gson
 import com.kariba.prayheal.R
 import com.kariba.prayheal.UserApplication
@@ -38,8 +35,6 @@ import com.kariba.prayheal.utils.AppConstants
 import com.kariba.prayheal.utils.AppUtils
 import com.kariba.prayheal.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -57,9 +52,10 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
     @Inject
     lateinit var carouselViewModel : MainViewModel
 
-    private var carouselList: ArrayList<CarouselResponse.CarouselData.SurahData> = ArrayList()
+    private var carouselList: ArrayList<SurahData> = ArrayList()
     private var ayatList: ArrayList<AyahsData> = ArrayList()
 
+    @Inject
     lateinit var localDatabase : LocalDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,12 +73,11 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
 
     private fun initView(binding: ActivityMainBinding) {
 
-        localDatabase = LocalDatabase.getDatabase(this)
-
         binding.textViewUserName.text = "${getString(R.string.dear)} ${appPreferenceImpl.getString(AppPreference.USER_NAME)}"
+        appPreferenceImpl.setBoolean(AppPreference.IS_LOGGED_IN, true)
 
         //loadCarouselData()
-        //loadSurah()
+        loadFavoriteSurah(binding)
 
         var snapHelper: SnapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(recyclerViewCarousel)
@@ -120,6 +115,44 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
 
     }
 
+    private fun loadFavoriteSurah(binding: ActivityMainBinding) {
+        localDatabase.getSurahDao().getSurahList().observe(this, object : Observer<List<SurahData>>{
+            override fun onChanged(data: List<SurahData>?) {
+
+                if(data?.size != 0){
+
+                    binding.layoutSurahNoData.root.visibility = View.GONE
+                    binding.recyclerViewCarousel.visibility = View.VISIBLE
+
+                    carouselList.clear()
+
+                    for(item in data ?: ArrayList()){
+                        if(item.isFavorite == true){
+                            carouselList.add(item)
+                        }
+                    }
+
+                    carouselAdapter.setCarouselList(carouselList)
+                    carouselAdapter.notifyDataSetChanged()
+
+                    if(carouselList.size == 0){
+                        binding.layoutSurahNoData.root.visibility = View.VISIBLE
+                        binding.recyclerViewCarousel.visibility = View.GONE
+                    }
+
+
+                }else {
+
+                    binding.layoutSurahNoData.root.visibility = View.VISIBLE
+                    binding.recyclerViewCarousel.visibility = View.GONE
+
+                }
+
+            }
+
+        })
+    }
+
     private fun loadCarouselData() {
         if(!AppUtils.hasNetworkConnection(this)){
             AppUtils.showToast(this, getString(R.string.no_internet), false)
@@ -133,10 +166,8 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
                 progressDialog.dismiss()
                 if(data?.responseCode == 200){
 
-                    appPreferenceImpl.setBoolean(AppPreference.IS_LOGGED_IN, true)
-
-                    carouselList.clear()
-                    carouselList = data?.carouselData?.surahList ?: ArrayList()
+                    //carouselList.clear()
+                    //carouselList = data?.carouselData?.surahList ?: ArrayList()
 
                     carouselAdapter.setCarouselList(carouselList)
                     carouselAdapter.notifyDataSetChanged()

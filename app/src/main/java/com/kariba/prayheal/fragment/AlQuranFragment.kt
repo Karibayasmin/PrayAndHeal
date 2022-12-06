@@ -52,6 +52,8 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener,
     @Inject
     lateinit var localDatabase: LocalDatabase
 
+    lateinit var fragmentBinding : FragmentAlQuranBinding
+
     var surahList: ArrayList<SurahData> = ArrayList()
     var surahTemporaryList: ArrayList<SurahData> = ArrayList()
 
@@ -81,9 +83,7 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener,
 
     private fun initView(binding: FragmentAlQuranBinding, context: Context) {
 
-        //localDatabase = LocalDatabase.getDatabase(context)
-
-        Log.e("AlQuranFragment", "Enter here 2")
+        fragmentBinding = binding
 
         fetchSurahData(context)
 
@@ -102,6 +102,7 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener,
             override fun onChanged(data: List<SurahData>) {
 
                 if(data.size != 0){
+                    fragmentBinding.editTextSearch.setText("")
                     surahList.clear()
                     surahList = data as ArrayList<SurahData>
                     updateList()
@@ -298,6 +299,8 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener,
                     localDatabase.getSurahDao().updateSurah(updateSurah)
                 }
 
+                AppUtils.showCustomToast(requireContext(), getString(R.string.successfully_added), false, getString(R.string.toast_type_success))
+
             }else{
 
                 GlobalScope.launch {
@@ -313,6 +316,8 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener,
                     }
                     localDatabase.getSurahDao().updateSurah(updateSurah)
                 }
+
+                AppUtils.showCustomToast(requireContext(), getString(R.string.successfully_removed), false, getString(R.string.toast_type_success))
             }
 
             fetchSurahData(requireContext())

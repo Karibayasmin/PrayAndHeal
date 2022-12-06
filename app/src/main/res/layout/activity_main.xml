@@ -52,6 +52,7 @@
                 android:layout_marginTop="8dp">
 
                 <include
+                    android:id="@+id/layout_surah_no_data"
                     layout="@layout/layout_no_data_available"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
