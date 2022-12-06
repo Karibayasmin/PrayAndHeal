@@ -16,12 +16,12 @@
         app:cardBackgroundColor="@color/white"
         android:layout_marginTop="10dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:layout_toStartOf="@+id/imageView_favorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{ayahResponse.text}"
@@ -32,10 +32,21 @@
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:background="@color/white"
-                android:gravity="center"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"/>
 
-        </LinearLayout>
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageView_favorite"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_love"
+                app:tint="@color/red_apple"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"/>
+
+        </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 

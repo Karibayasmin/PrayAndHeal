@@ -20,6 +20,8 @@ import com.kariba.prayheal.UserApplication
 import com.kariba.prayheal.activity.FragmentActivity
 import com.kariba.prayheal.adapter.AdapterSurah
 import com.kariba.prayheal.databinding.FragmentAlQuranBinding
+import com.kariba.prayheal.interfaces.FavoriteSurahClickListener
+import com.kariba.prayheal.interfaces.OnCarouselClickListener
 import com.kariba.prayheal.interfaces.OnItemClickListener
 import com.kariba.prayheal.localDatabase.LocalDatabase
 import com.kariba.prayheal.models.AyahsData
@@ -33,7 +35,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener {
+class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener,
+    FavoriteSurahClickListener {
 
     @Inject
     lateinit var mainViewModel: MainViewModel
@@ -41,6 +44,7 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener {
     @Inject
     lateinit var adapterSurah: AdapterSurah
 
+    @Inject
     lateinit var localDatabase: LocalDatabase
 
     var surahList: ArrayList<SurahData> = ArrayList()
@@ -72,7 +76,7 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener {
 
     private fun initView(binding: FragmentAlQuranBinding, context: Context) {
 
-        localDatabase = LocalDatabase.getDatabase(context)
+        //localDatabase = LocalDatabase.getDatabase(context)
 
         Log.e("AlQuranFragment", "Enter here 2")
 
@@ -83,6 +87,7 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener {
 
         binding.editTextSearch.addTextChangedListener(this)
         adapterSurah.onItemClickListener = this
+        adapterSurah.onFavoriteClickListener = this
 
 
     }
@@ -210,5 +215,8 @@ class AlQuranFragment : BaseFragment(), TextWatcher, OnItemClickListener {
         bundle.putString("carouselItem", Gson().toJson(surahTemporaryList[position]))
         intent.putExtras(bundle)
         startActivity(intent)
+    }
+
+    override fun favoriteSurahClick(view: View, position: Int) {
     }
 }

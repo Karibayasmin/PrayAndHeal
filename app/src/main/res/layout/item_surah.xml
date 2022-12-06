@@ -58,7 +58,8 @@
             android:layout_alignParentEnd="true"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/ic_heart_one"
+            android:src="@drawable/ic_love"
+            app:tint="@color/white"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"/>
 

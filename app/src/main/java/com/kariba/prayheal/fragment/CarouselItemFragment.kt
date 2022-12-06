@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.kariba.prayheal.R
+import com.kariba.prayheal.UserApplication
 import com.kariba.prayheal.adapter.AdapterAyat
 import com.kariba.prayheal.databinding.FragmentCarouselItemBinding
 import com.kariba.prayheal.localDatabase.LocalDatabase
@@ -19,14 +20,17 @@ import com.kariba.prayheal.models.AyahsData
 import com.kariba.prayheal.models.CarouselResponse
 import kotlinx.android.synthetic.main.fragment_carousel_item.*
 import java.lang.reflect.Type
+import javax.inject.Inject
 
 class CarouselItemFragment : Fragment() {
 
     var carouselItem : CarouselResponse.CarouselData.SurahData = CarouselResponse.CarouselData.SurahData()
     var ayahList: ArrayList<AyahsData> = ArrayList()
 
+    @Inject
     lateinit var ayahAdapter : AdapterAyat
 
+    @Inject
     lateinit var localDatabase : LocalDatabase
 
     var surahName = ""
@@ -42,15 +46,15 @@ class CarouselItemFragment : Fragment() {
 
         val binding = DataBindingUtil.inflate<FragmentCarouselItemBinding>(inflater, R.layout.fragment_carousel_item, container, false )
 
+        val component = UserApplication.appComponent
+        component.inject(this)
+
         context?.let { initView(binding, it) }
 
         return binding.root
     }
 
     private fun initView(binding: FragmentCarouselItemBinding, context: Context) {
-
-        ayahAdapter = AdapterAyat(context)
-        localDatabase = LocalDatabase.getDatabase(context)
 
         binding.recyclerviewList.adapter = ayahAdapter
         binding.recyclerviewList.setHasFixedSize(true)
