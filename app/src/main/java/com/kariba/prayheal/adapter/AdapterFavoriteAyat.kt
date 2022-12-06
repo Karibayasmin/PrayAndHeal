@@ -33,7 +33,7 @@ class AdapterFavoriteAyat(private val context: Context) : RecyclerView.Adapter<A
     }
 
     override fun getItemCount(): Int {
-        return return if(ayatList.size == 0) ayatList.size else 4
+        return if(ayatList.size < 4) ayatList.size else 4
     }
 
     class FavoriteAyatViewHolder(private val itemBinding: ItemFavoriteAyatBinding) : RecyclerView.ViewHolder(itemBinding.root){

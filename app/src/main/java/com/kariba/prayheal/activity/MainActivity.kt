@@ -78,6 +78,7 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
 
         //loadCarouselData()
         loadFavoriteSurah(binding)
+        loadFavoriteAyah(binding)
 
         var snapHelper: SnapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(recyclerViewCarousel)
@@ -113,6 +114,44 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
             switchToRules()
         }
 
+    }
+
+    private fun loadFavoriteAyah(binding: ActivityMainBinding) {
+        localDatabase.getAyahDao().getAyahList().observe(this, object : Observer<List<AyahsData>>{
+            override fun onChanged(data: List<AyahsData>?) {
+
+                if(data?.size != 0){
+
+                    binding.layoutAyahNoData.root.visibility = View.GONE
+                    binding.recyclerViewGrid.visibility = View.VISIBLE
+
+                    ayatList.clear()
+
+                    for(item in data ?: ArrayList()){
+                        if(item.isFavorite == true){
+                            ayatList.add(item)
+                        }
+                    }
+
+                    adapterFavoriteAyat.setAyatData(ayatList)
+                    adapterFavoriteAyat.notifyDataSetChanged()
+
+                    if(ayatList.size == 0){
+                        binding.layoutAyahNoData.root.visibility = View.VISIBLE
+                        binding.recyclerViewGrid.visibility = View.GONE
+                    }
+
+
+                }else {
+
+                    binding.layoutAyahNoData.root.visibility = View.VISIBLE
+                    binding.recyclerViewGrid.visibility = View.GONE
+
+                }
+
+            }
+
+        })
     }
 
     private fun loadFavoriteSurah(binding: ActivityMainBinding) {
