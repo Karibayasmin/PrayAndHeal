@@ -76,7 +76,6 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
         binding.textViewUserName.text = "${getString(R.string.dear)} ${appPreferenceImpl.getString(AppPreference.USER_NAME)}"
         appPreferenceImpl.setBoolean(AppPreference.IS_LOGGED_IN, true)
 
-        //loadCarouselData()
         loadFavoriteSurah(binding)
         loadFavoriteAyah(binding)
 
@@ -93,7 +92,6 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
         recyclerViewCarousel.setPadding(paddingWidth.toInt(), 0, paddingWidth.toInt(), 0)
 
         carouselAdapter.itemClick = this
-
         recyclerViewCarousel.adapter = carouselAdapter
         recyclerViewCarousel.setHasFixedSize(true)
 
@@ -186,41 +184,6 @@ class MainActivity : BaseActivity(), OnCarouselClickListener, onAyatClickListene
                     binding.recyclerViewCarousel.visibility = View.GONE
 
                 }
-
-            }
-
-        })
-    }
-
-    private fun loadCarouselData() {
-        if(!AppUtils.hasNetworkConnection(this)){
-            AppUtils.showToast(this, getString(R.string.no_internet), false)
-            return
-        }
-
-        progressDialog.show()
-
-        carouselViewModel.getCarouselResponse(this).observe(this, object : Observer<CarouselResponse>{
-            override fun onChanged(data: CarouselResponse?) {
-                progressDialog.dismiss()
-                if(data?.responseCode == 200){
-
-                    //carouselList.clear()
-                    //carouselList = data?.carouselData?.surahList ?: ArrayList()
-
-                    carouselAdapter.setCarouselList(carouselList)
-                    carouselAdapter.notifyDataSetChanged()
-
-                    ayatList.clear()
-                    ayatList = data.carouselData?.surahList?.get(1)?.ayahsList ?: ArrayList()
-
-                    adapterFavoriteAyat.setAyatData(ayatList)
-                    adapterFavoriteAyat.notifyDataSetChanged()
-
-                }else{
-                    AppUtils.showToast(this@MainActivity, getString(R.string.common_error), false)
-                }
-
 
             }
 

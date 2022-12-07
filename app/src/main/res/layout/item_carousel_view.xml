@@ -19,41 +19,57 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp">
 
-        <LinearLayout
-            android:id="@+id/layout_item"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/image_demo_three"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:background="@drawable/image_demo_three">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textView_arbiName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{carouselResponse.name}"
-                android:textColor="@color/white"
-                android:textSize="20sp"/>
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageView_cross"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_cross"
+                app:tint="@color/white"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textView_englishName"
-                android:layout_below="@+id/textView_arbiName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{carouselResponse.englishName}"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+            <LinearLayout
+                android:id="@+id/layout_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textView_translation"
-                android:layout_below="@+id/textView_englishName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{carouselResponse.englishNameTranslation}"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textView_arbiName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{carouselResponse.name}"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"/>
 
-        </LinearLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textView_englishName"
+                    android:layout_below="@+id/textView_arbiName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{carouselResponse.englishName}"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textView_translation"
+                    android:layout_below="@+id/textView_englishName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{carouselResponse.englishNameTranslation}"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 
