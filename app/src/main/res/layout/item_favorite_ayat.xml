@@ -11,23 +11,57 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView_ayat"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="200dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="4dp"
         app:cardBackgroundColor="@color/white"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginEnd="5dp"
         android:layout_marginStart="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:background="@drawable/image_demo_eight">
+            android:background="@color/white_snow"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageView_cross"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_cross"
+                app:tint="@color/blue"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textView_surahName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Surah Name: Al-Faatiha"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/blue"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:layout_gravity="center_horizontal"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textView_ayahNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ayat Number: 1"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/blue"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:layout_gravity="center_horizontal"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="@{ayatData.text}"
                 android:textSize="20sp"
                 android:maxLines="3"
@@ -37,7 +71,6 @@
                 android:paddingEnd="8dp"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                android:gravity="center"
                 android:layout_gravity="center"/>
 
         </LinearLayout>

@@ -47,22 +47,22 @@
                     android:layout_height="wrap_content"
                     android:text="@{carouselResponse.name}"
                     android:textColor="@color/white"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textView_englishName"
-                    android:layout_below="@+id/textView_arbiName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView_arbiName"
                     android:text="@{carouselResponse.englishName}"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textView_translation"
-                    android:layout_below="@+id/textView_englishName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView_englishName"
                     android:text="@{carouselResponse.englishNameTranslation}"
                     android:textColor="@color/white"
                     android:textSize="18sp" />

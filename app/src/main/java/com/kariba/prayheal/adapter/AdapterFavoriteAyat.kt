@@ -46,6 +46,9 @@ class AdapterFavoriteAyat(private val context: Context) : RecyclerView.Adapter<A
             itemBinding.ayatData = ayahsData
             itemBinding.executePendingBindings()
 
+            itemBinding.textViewSurahName.text = "Surah Name: ${ayahsData.englishName}"
+            itemBinding.textViewAyahNumber.text = "Ayah Number: ${ayahsData.numberInSurah}"
+
             itemBinding.cardViewAyat.setOnClickListener {
                 ayatClick.ayatOnClick(it, adapterPosition)
             }
